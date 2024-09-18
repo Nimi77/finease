@@ -1,15 +1,43 @@
 import { useMutation } from "react-query";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { loginUser } from "../../api/authApi";
+import { useAuthStore } from "../../store/authStore";
 import { LoginSchema } from "../../schema/Schema";
+import { loginUser } from "../../api/authApi";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
 
 const LoginForm = () => {
-  const { mutate, isLoading, isError, error } = useMutation(loginUser, {
-    onSuccess: (data) => {
-      console.log("Login successful", data);
-    },
-  });
+  const { setTokens } = useAuthStore();
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const { mutate, isLoading, isError } = useMutation(
+    async (values: LoginCredentials) => loginUser(values),
+    {
+      onSuccess: (data) => {
+        setTokens(data.access_token, data.refresh_token);
+      },
+      onError: (error: any) => {
+        setFormError(error.message);
+      },
+    }
+  );
+
+  const handleSubmit = (
+    values: LoginCredentials,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    setFormError(null);
+    mutate(values, {
+      onSettled: () => {
+        setSubmitting(false);
+      },
+    });
+  };
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center m-auto px-6 py-12 lg:px-8">
@@ -24,9 +52,7 @@ const LoginForm = () => {
             password: "",
           }}
           validationSchema={LoginSchema}
-          onSubmit={(values) => {
-            mutate(values);
-          }}
+          onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
             <Form className="login-form space-y-4 mt-10">
@@ -74,13 +100,11 @@ const LoginForm = () => {
                   />
                 </div>
               </div>
-              {isError && (
-                <p className="text-sm">
-                  {error instanceof Error
-                    ? error.message
-                    : "An unknown error occurred"}
-                </p>
+
+              {isError && formError && (
+                <p className="text-red-500 text-sm">{formError}</p>
               )}
+
               <button
                 type="submit"
                 disabled={isSubmitting && isLoading}
