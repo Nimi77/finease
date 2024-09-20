@@ -8,8 +8,16 @@
   align-content:center;
   min-height:100vh;
 }
-.login-form button{
-    margin-top: 2rem;
+.sidebar a{
+  text-decoration:none;
 }
-
-
+.sidebar-nav ul li > a{
+  display:flex;
+  align-items:center;
+  padding:0.5rem;
+  gap:0.5rem;
+  border-radius:0.35rem;
+}
+.sidebar-nav ul li > a:hover{
+  background-color:#33334d;
+}

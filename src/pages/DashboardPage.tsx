@@ -1,8 +1,17 @@
+import Header from "../components/Dashboard/Header";
+import Sidebar from "../components/Dashboard/Sidebar";
 
 const Dashboard = () => {
   return (
-    <div className="h-screen flex justify-center items-center">
-      <h1 className="text-3xl">Welcome to the Dashboard!</h1>
+    <div className="dashboard h-screen flex">
+      <Sidebar/>
+
+      <div className="flex-1">
+        <Header/>
+        <main className="px-6 pt-4">
+          <h2>....</h2>
+        </main>
+      </div>
     </div>
   );
 };

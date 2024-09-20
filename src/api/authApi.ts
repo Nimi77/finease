@@ -23,7 +23,7 @@ export const registerUser = async (user: UserCredentials): Promise<void> => {
     const response = await axiosInstance.post("api/v1/users", user);
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || "Registration failed");
+    throw new Error(error.response?.data?.message || "Registration failed. Try again later..");
   }
 };
 
@@ -32,6 +32,6 @@ export const loginUser = async (credentials: LoginCredentials): Promise<LoginRes
     const response = await axiosInstance.post("api/v1/auth/login", credentials);
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || "An error occured");
+    throw new Error(error.response?.data?.message || "Invalid credentials");
   }
 };

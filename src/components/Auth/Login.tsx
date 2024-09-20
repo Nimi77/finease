@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useAuthStore } from "../../store/authStore";
 import { LoginSchema } from "../../schema/Schema";
 import { loginUser } from "../../api/authApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 interface LoginCredentials {
@@ -13,6 +13,7 @@ interface LoginCredentials {
 
 const LoginForm = () => {
   const { setTokens } = useAuthStore();
+  const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
   const { mutate, isLoading, isError } = useMutation(
@@ -20,6 +21,7 @@ const LoginForm = () => {
     {
       onSuccess: (data) => {
         setTokens(data.access_token, data.refresh_token);
+        navigate("/dashboard");
       },
       onError: (error: any) => {
         setFormError(error.message);
@@ -107,10 +109,14 @@ const LoginForm = () => {
 
               <button
                 type="submit"
-                disabled={isSubmitting && isLoading}
-                className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                disabled={isSubmitting || isLoading}
+                className={`flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+                  isSubmitting || isLoading
+                    ? "bg-blue-300 hover:bg-blue-300 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
               >
-                {isSubmitting && isLoading ? "Logging in..." : "Login"}
+                {isSubmitting || isLoading ? "Logging in..." : "Login"}
               </button>
             </Form>
           )}
@@ -120,7 +126,7 @@ const LoginForm = () => {
           Don't have an account?{" "}
           <Link
             to="/"
-            className="font-semibold leading-6 text-blue-600 hover:text-blue-500"
+            className="font-semibold leading-6 text-blue-600 hover:text-blue-500 hover:underline"
           >
             Register
           </Link>

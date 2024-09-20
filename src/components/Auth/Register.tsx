@@ -196,7 +196,9 @@ const RegisterForm = () => {
                 type="submit"
                 disabled={isSubmitting || isLoading}
                 className={`flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
-                  isSubmitting || isLoading ? "bg-blue-400" : "bg-blue-600"
+                  isSubmitting || isLoading
+                    ? "bg-blue-300 cursor-not-allowed"
+                    : "cursor-pointer"
                 }`}
               >
                 {isSubmitting || isLoading ? "Registering..." : "Register"}
@@ -209,7 +211,7 @@ const RegisterForm = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-semibold leading-6 text-blue-600 hover:text-blue-500"
+            className="font-semibold leading-6 text-blue-600 hover:text-blue-500 hover:underline"
           >
             Login
           </Link>
