@@ -16,6 +16,11 @@ interface LoginCredentials {
 interface LoginResponse{
   access_token: string;
   refresh_token: string;
+  user: {
+    name: string;
+    avatar: string;
+    email: string;
+  }
 }
 
 export const registerUser = async (user: UserCredentials): Promise<void> => {

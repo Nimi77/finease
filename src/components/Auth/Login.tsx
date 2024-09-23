@@ -20,7 +20,7 @@ const LoginForm = () => {
     async (values: LoginCredentials) => loginUser(values),
     {
       onSuccess: (data) => {
-        setTokens(data.access_token, data.refresh_token);
+        setTokens(data.access_token, data.refresh_token, data.user);
         navigate("/dashboard");
       },
       onError: (error: any) => {
@@ -29,7 +29,7 @@ const LoginForm = () => {
     }
   );
 
-  const handleSubmit = (
+  const handleLogin = (
     values: LoginCredentials,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
@@ -44,7 +44,7 @@ const LoginForm = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center m-auto px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        <h2 className="text-center text-gray-900 text-2xl font-bold leading-9 tracking-tight">
           Login to your account
         </h2>
 
@@ -54,7 +54,7 @@ const LoginForm = () => {
             password: "",
           }}
           validationSchema={LoginSchema}
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
         >
           {({ isSubmitting }) => (
             <Form className="login-form space-y-4 mt-10">
@@ -66,6 +66,7 @@ const LoginForm = () => {
                   <Field
                     name="email"
                     type="email"
+                    placeholder="Email"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -93,6 +94,7 @@ const LoginForm = () => {
                   <Field
                     name="password"
                     type="password"
+                    placeholder="Password"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage

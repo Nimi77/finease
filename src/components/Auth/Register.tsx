@@ -42,7 +42,7 @@ const RegisterForm = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="text-center text-2xl font-bold leading-9">
+        <h2 className="text-center text-gray-900 text-2xl font-bold leading-9">
           Create an account
         </h2>
 
@@ -63,13 +63,14 @@ const RegisterForm = () => {
             <Form className="space-y-4 mt-10 mb-2">
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  First Name
+                  First name
                 </label>
                 <div className="mt-2">
                   <Field
                     id="first_name"
                     name="first_name"
                     type="text"
+                    placeholder="First name"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -81,13 +82,14 @@ const RegisterForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Last Name
+                  Last name
                 </label>
                 <div className="mt-2">
                   <Field
                     id="last_name"
                     name="last_name"
                     type="text"
+                    placeholder="Last name"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -106,6 +108,7 @@ const RegisterForm = () => {
                     id="email"
                     name="email"
                     type="email"
+                    placeholder="Email"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -124,6 +127,7 @@ const RegisterForm = () => {
                     id="password"
                     name="password"
                     type="password"
+                    placeholder="Password"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -135,13 +139,14 @@ const RegisterForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Phone Number
+                  Phone number
                 </label>
                 <div className="mt-2">
                   <Field
                     id="phone_number"
                     name="phone_number"
                     type="tel"
+                    placeholder="Phone number"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -153,13 +158,14 @@ const RegisterForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Date of Birth
+                  Date of birth
                 </label>
                 <div className="mt-2">
                   <Field
                     id="date_of_birth"
                     name="date_of_birth"
                     type="date"
+                    placeholder="Date of birth"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
@@ -178,6 +184,7 @@ const RegisterForm = () => {
                     id="address"
                     name="address"
                     type="text"
+                    placeholder="Address"
                     className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage

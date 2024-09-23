@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_REACT_APP_BASE_URL,
   headers: {
     "Content-Type": "application/json",
-  },
+  }
 });
 
 //Request interceptor to add authorization header
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-//Response interceptor for Unautorized errror
+//Response interceptor for Unautorized error
 axiosInstance.interceptors.request.use(
     (response) => response, (error)=> {
         if(error.response?.status === 401){
