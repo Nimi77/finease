@@ -17,12 +17,16 @@ interface RegisterFormValues {
 
 const RegisterForm = () => {
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMss, setSuccessMss] = useState<string | null>(null);
 
   const { mutate, isLoading, isError } = useMutation(
     (values: RegisterFormValues) => registerUser(values),
     {
       onError: (error: Error) => {
         setFormError(error.message);
+      },
+      onSuccess: (success) => {
+        setSuccessMss(success.message);
       },
     }
   );
@@ -42,7 +46,7 @@ const RegisterForm = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="text-center text-gray-900 text-2xl font-bold leading-9">
+        <h2 className="text-center text-textG text-2xl font-bold leading-9">
           Create an account
         </h2>
 
@@ -70,8 +74,8 @@ const RegisterForm = () => {
                     id="first_name"
                     name="first_name"
                     type="text"
-                    placeholder="First name"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    placeholder="First Name"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="first_name"
@@ -82,7 +86,7 @@ const RegisterForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Last name
+                  Last Name
                 </label>
                 <div className="mt-2">
                   <Field
@@ -90,7 +94,7 @@ const RegisterForm = () => {
                     name="last_name"
                     type="text"
                     placeholder="Last name"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="last_name"
@@ -109,7 +113,7 @@ const RegisterForm = () => {
                     name="email"
                     type="email"
                     placeholder="Email"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="email"
@@ -128,7 +132,7 @@ const RegisterForm = () => {
                     name="password"
                     type="password"
                     placeholder="Password"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="password"
@@ -139,7 +143,7 @@ const RegisterForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Phone number
+                  Phone Number
                 </label>
                 <div className="mt-2">
                   <Field
@@ -147,7 +151,7 @@ const RegisterForm = () => {
                     name="phone_number"
                     type="tel"
                     placeholder="Phone number"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="phone_number"
@@ -158,7 +162,7 @@ const RegisterForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Date of birth
+                  Date of Birth
                 </label>
                 <div className="mt-2">
                   <Field
@@ -166,7 +170,7 @@ const RegisterForm = () => {
                     name="date_of_birth"
                     type="date"
                     placeholder="Date of birth"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="date_of_birth"
@@ -185,7 +189,7 @@ const RegisterForm = () => {
                     name="address"
                     type="text"
                     placeholder="Address"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="address"
@@ -198,13 +202,16 @@ const RegisterForm = () => {
               {isError && formError && (
                 <p className="text-sm text-red-500">{formError}</p>
               )}
+              {successMss && (
+                <p className="text-sm text-green-500">{successMss}</p>
+              )}
 
               <button
                 type="submit"
                 disabled={isSubmitting || isLoading}
-                className={`flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+                className={`flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-active transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                   isSubmitting || isLoading
-                    ? "bg-blue-300 cursor-not-allowed"
+                    ? "bg-active cursor-not-allowed"
                     : "cursor-pointer"
                 }`}
               >
@@ -218,7 +225,7 @@ const RegisterForm = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-semibold leading-6 text-blue-600 hover:text-blue-500 hover:underline"
+            className="font-semibold leading-6 text-textG hover:text-green-700 hover:underline"
           >
             Login
           </Link>

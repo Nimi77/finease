@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
+import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import Register from "./pages/RegisterPage";
 import Login from "./pages/LoginPage";
 import Dashboard from "./pages/DashboardPage";
-import ProtectedRoute from "./components/Protected/ProtectedRoute";
+import Home from "./components/Dashboard/Main";
+import Deposit from "./components/Dashboard/Deposit";
+import "./App.css";
 
 const App: React.FC = () => {
   return (
@@ -19,8 +21,8 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         >
-          {/* <Route path="/transactions" element={}></Route>
-          <Route path="/account" element={}></Route> */}
+          <Route index element={<Home />} />
+          <Route path="deposit" element={<Deposit />} />
         </Route>
         <Route path="/logout" element={<Dashboard />}></Route>
       </Routes>

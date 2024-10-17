@@ -1,17 +1,15 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Dashboard/Header";
 import Sidebar from "../components/Dashboard/Sidebar";
-import Home from "../components/Dashboard/Main";
 
 const Dashboard = () => {
   return (
-    <div className="dashboard h-screen flex">
+    <div className="dashboard h-screen flex bg-[#fAFEFE]">
       <Sidebar />
 
       <div className="flex-1">
         <Header />
-        <main className="px-6 pt-4">
-          <Home />
+        <main className="px-8 py-6">
           <Outlet />
         </main>
       </div>

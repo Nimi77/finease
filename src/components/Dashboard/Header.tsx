@@ -10,6 +10,7 @@ const Header = () => {
     const { data } = await axiosInstance.get("/api/v1/profile");
     return data;
   };
+
   const accessToken = useAuthStore((state) => state.accessToken);
   const {
     data: user,
@@ -18,11 +19,12 @@ const Header = () => {
   } = useQuery("userProfile", fetchUserProfile, {
     enabled: !!accessToken,
   });
+
   if (isLoading) return <div>Loading..</div>;
   if (error) return <div>Error fetching user dats</div>;
 
   return (
-    <header className="p-6">
+    <header className="p-6 border-b border-gray-200">
       <div className="nav flex justify-between items-center">
         {user && (
           <div className="flex items-center justify-start gap-4">
@@ -58,4 +60,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;

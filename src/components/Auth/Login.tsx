@@ -12,9 +12,9 @@ interface LoginCredentials {
 }
 
 const LoginForm = () => {
+  const [formError, setFormError] = useState<string | null>(null);
   const { setTokens } = useAuthStore();
   const navigate = useNavigate();
-  const [formError, setFormError] = useState<string | null>(null);
 
   const { mutate, isLoading, isError } = useMutation(
     async (values: LoginCredentials) => loginUser(values),
@@ -44,7 +44,7 @@ const LoginForm = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center m-auto px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="text-center text-gray-900 text-2xl font-bold leading-9 tracking-tight">
+        <h2 className="text-center text-textG text-2xl font-bold leading-9 tracking-tight">
           Login to your account
         </h2>
 
@@ -67,7 +67,7 @@ const LoginForm = () => {
                     name="email"
                     type="email"
                     placeholder="Email"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="email"
@@ -84,7 +84,7 @@ const LoginForm = () => {
                   <div className="text-sm">
                     <a
                       href="#"
-                      className="font-semibold text-blue-600 hover:text-blue-500"
+                      className="font-semibold text-textG hover:text-green-700"
                     >
                       Forgot password?
                     </a>
@@ -95,7 +95,7 @@ const LoginForm = () => {
                     name="password"
                     type="password"
                     placeholder="Password"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="password"
@@ -112,9 +112,9 @@ const LoginForm = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || isLoading}
-                className={`flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+                className={`flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-active transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                   isSubmitting || isLoading
-                    ? "bg-blue-300 hover:bg-blue-300 cursor-not-allowed"
+                    ? "bg-active cursor-not-allowed"
                     : "cursor-pointer"
                 }`}
               >
@@ -128,7 +128,7 @@ const LoginForm = () => {
           Don't have an account?{" "}
           <Link
             to="/"
-            className="font-semibold leading-6 text-blue-600 hover:text-blue-500 hover:underline"
+            className="font-semibold leading-6 text-textG hover:text-green-700 hover:underline"
           >
             Register
           </Link>

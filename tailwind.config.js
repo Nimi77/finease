@@ -7,6 +7,14 @@ export default {
         PTSans: ["PT Sans", "sans-serif"],
         NotoSans: ["Noto Sans JP", "sans-serif"]
       },
+      backgroundColor: {
+        primary: "#FFFFFF",
+        secondary: "#2A3B39",
+        active: "#425C5A"
+      },
+      colors : {
+        textG: "#2A3B39"
+      }
     },
   },
   plugins: [],

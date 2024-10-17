@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 
 export const LoginSchema = Yup.object({
   email: Yup.string().email("Invalid Email").required("Email is required"),
@@ -20,11 +20,23 @@ export const RegisterSchema = Yup.object({
     .required("Phone Number is required"),
   date_of_birth: Yup.date()
     .required("Date of birth is required")
-    .test("age", "You must be at least 16 years old to register", function(value){
-      const currentDate = dayjs();
-      const birthDate = dayjs(value);
-      const age = currentDate.diff(birthDate, "year");
-      return age >= 16;
-    }),
+    .test(
+      "age",
+      "You must be at least 16 years old to register",
+      function (value) {
+        const currentDate = dayjs();
+        const birthDate = dayjs(value);
+        const age = currentDate.diff(birthDate, "year");
+        return age >= 16;
+      }
+    ),
   address: Yup.string().required("Address is required"),
+});
+
+export const DepositSchema = Yup.object().shape({
+  amount: Yup.number()
+    .required("Amount is required")
+    .positive("Invalid Amount")
+    .min(500, "The least deposit is ₦500."),
+  narration: Yup.string().required("Narration is required"),
 });

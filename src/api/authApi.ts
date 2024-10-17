@@ -23,12 +23,21 @@ interface LoginResponse{
   }
 }
 
-export const registerUser = async (user: UserCredentials): Promise<void> => {
+export const registerUser = async (user: UserCredentials): Promise<{message: string; data?: any}> => {
   try {
     const response = await axiosInstance.post("api/v1/users", user);
-    return response.data;
+    return {
+      message: "Registration successful",
+      data: response.data
+    };
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || "Registration failed. Try again later..");
+    console.error("Error response:", error.response);
+
+    if (error.response?.data?.error === "Validation failed: Email has already been taken") {
+      throw new Error("User already exists");
+    } 
+    // Fallback error message
+    throw new Error("Registration failed. Try again later.");
   }
 };
 
