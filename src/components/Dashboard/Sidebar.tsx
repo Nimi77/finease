@@ -1,9 +1,9 @@
 import { BiHome, BiLogOut, BiTransferAlt, BiWallet } from "react-icons/bi";
 import { RiAccountCircleLine } from "react-icons/ri";
-import { SiJellyfin } from "react-icons/si";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { CiSettings } from "react-icons/ci";
+import { GrCss3 } from "react-icons/gr";
 
 const Sidebar = () => {
   const logout = useAuthStore((state) => state.logout);
@@ -18,8 +18,8 @@ const Sidebar = () => {
     <aside className="sidebar bg-secondary text-white w-64 min-h-screen py-8 px-6">
       <div className="sidebar-container min-h-full flex flex-col">
         <div className="brand-name flex items-center gap-2 px-2">
-          <SiJellyfin />
-          <span className="text-2xl font-semibold leading-8 tracking-tight">
+          <GrCss3 size={21} />
+          <span className="text-2xl font-semibold leading-8">
             Finease
           </span>
         </div>
@@ -44,7 +44,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/dashboard/accounts">
+              <Link to="/dashboard/account">
                 <RiAccountCircleLine size={18} color="#EEB531" />
                 Account
               </Link>

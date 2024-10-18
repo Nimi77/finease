@@ -22,3 +22,29 @@
 .sidebar-nav ul li > a:hover {
   background-color: #425C5A;
 }
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  background-color: #f5f5f5; 
+}
+
+.loader {
+  background-color: #2A3B39;
+  width: 40px; 
+  height: 40px; 
+  animation: loader 1.2s infinite ease-in-out;
+}
+
+@keyframes loader {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}

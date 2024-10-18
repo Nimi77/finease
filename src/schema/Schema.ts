@@ -35,8 +35,19 @@ export const RegisterSchema = Yup.object({
 
 export const DepositSchema = Yup.object().shape({
   amount: Yup.number()
-    .required("Amount is required")
+    .required("The least deposit is ₦500")
     .positive("Invalid Amount")
-    .min(500, "The least deposit is ₦500."),
+    .min(500, "The least deposit is ₦500"),
+  narration: Yup.string().required("Narration is required"),
+});
+
+export const TransactionSchema = Yup.object().shape({
+  account_number:  Yup.number()
+  .required("Enter a valid account number")
+  .min(10, "Invalid account number"),
+  amount: Yup.number()
+    .required("The least deposit is ₦500")
+    .positive("Invalid Amount")
+    .min(500, "The least deposit is ₦500"),
   narration: Yup.string().required("Narration is required"),
 });

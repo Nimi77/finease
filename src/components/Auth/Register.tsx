@@ -16,17 +16,16 @@ interface RegisterFormValues {
 }
 
 const RegisterForm = () => {
-  const [formError, setFormError] = useState<string | null>(null);
-  const [successMss, setSuccessMss] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);;
 
-  const { mutate, isLoading, isError } = useMutation(
+  const { mutate, isLoading, isError, isSuccess } = useMutation(
     (values: RegisterFormValues) => registerUser(values),
     {
       onError: (error: Error) => {
         setFormError(error.message);
       },
-      onSuccess: (success) => {
-        setSuccessMss(success.message);
+      onSuccess: () => {
+        setFormError(null);
       },
     }
   );
@@ -67,7 +66,7 @@ const RegisterForm = () => {
             <Form className="space-y-4 mt-10 mb-2">
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  First name
+                  First Name
                 </label>
                 <div className="mt-2">
                   <Field
@@ -202,8 +201,8 @@ const RegisterForm = () => {
               {isError && formError && (
                 <p className="text-sm text-red-500">{formError}</p>
               )}
-              {successMss && (
-                <p className="text-sm text-green-500">{successMss}</p>
+              {isSuccess && (
+                <p className="text-green-800 bg-[#b3ffb99c] py-1 px-4 w-max text-sm rounded mb-3">Registration successful</p>
               )}
 
               <button

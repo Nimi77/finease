@@ -21,7 +21,7 @@ const Header = () => {
   });
 
   if (isLoading) return <div>Loading..</div>;
-  if (error) return <div>Error fetching user dats</div>;
+  if (error) return <div>Error fetching user data</div>;
 
   return (
     <header className="p-6 border-b border-gray-200">

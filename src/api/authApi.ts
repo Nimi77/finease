@@ -23,13 +23,10 @@ interface LoginResponse{
   }
 }
 
-export const registerUser = async (user: UserCredentials): Promise<{message: string; data?: any}> => {
+export const registerUser = async (user: UserCredentials): Promise<void> => {
   try {
     const response = await axiosInstance.post("api/v1/users", user);
-    return {
-      message: "Registration successful",
-      data: response.data
-    };
+    return response.data;
   } catch (error: any) {
     console.error("Error response:", error.response);
 
