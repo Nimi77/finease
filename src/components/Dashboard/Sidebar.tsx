@@ -38,7 +38,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/dashboard/transactions">
+              <Link to="/dashboard/transfer">
                 <BiTransferAlt size={18} color="#EEB531" />
                 Transactions
               </Link>

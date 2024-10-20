@@ -2,7 +2,8 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import { DepositSchema } from "../../schema/Schema";
 import axiosInstance from "../../api/axiosInstance";
 import { useMutation } from "react-query";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { AxiosError } from "axios";
 
 interface DepositValues {
   amount: number;
@@ -29,19 +30,19 @@ const Deposit = () => {
     onSuccess: () => {
       setFormError(null);
     },
-    onError: (error: Error) => {
+    onError: (error: AxiosError) => {
       setFormError(error.message);
     },
   });
 
-  const handleDeposit = (
-    values: DepositValues,
-    { setSubmitting }: FormikHelpers<DepositValues>
-  ): void => {
+  const handleDeposit = (values: DepositValues, formikHelpers: any) => {
+    const { setSubmitting, resetForm } = formikHelpers;
+
     setFormError(null);
     mutate(values, {
       onSettled: () => {
         setSubmitting(false);
+        resetForm();
       },
     });
   };
@@ -61,7 +62,7 @@ const Deposit = () => {
           validationSchema={DepositSchema}
           onSubmit={handleDeposit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, handleChange, handleBlur }) => (
             <Form className="deposit-form mt-6">
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -69,9 +70,15 @@ const Deposit = () => {
                 </label>
                 <div className="mt-2">
                   <Field
+                    id="amount"
                     name="amount"
                     type="number"
                     placeholder="Amount"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      setFormError(null);
+                      handleChange(e);
+                    }}
+                    onBlur={handleBlur}
                     className="block w-full rounded py-1.5 px-3 text-gray-900 shadow-sm placeholder:text-gray-400 ring-gray-300 focus-visible:border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 sm:text-sm sm:leading-6 overflow-hidden transition-all ease-in-out duration-200"
                   />
                   <ErrorMessage
@@ -87,9 +94,15 @@ const Deposit = () => {
                 </label>
                 <div className="mt-2">
                   <Field
+                    id="narration"
                     name="narration"
                     type="text"
                     placeholder="Narration"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      setFormError(null);
+                      handleChange(e);
+                    }}
+                    onBlur={handleBlur}
                     className="block w-full rounded border-0 py-1.5 px-3 text-gray-900 shadow-sm placeholder:text-gray-400 ring-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 sm:text-sm sm:leading-6 transition-all ease-in-out duration-200"
                   />
                   <ErrorMessage

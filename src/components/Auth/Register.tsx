@@ -3,7 +3,8 @@ import { RegisterSchema } from "../../schema/Schema";
 import { registerUser } from "../../api/authApi";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { AxiosError } from "axios";
 
 interface RegisterFormValues {
   first_name: string;
@@ -15,18 +16,58 @@ interface RegisterFormValues {
   phone_number: string;
 }
 
+const FormField = [
+  {
+    label: "First Name",
+    name: "first_name",
+    type: "text",
+    placeholder: "First name",
+  },
+  {
+    label: "Last Name",
+    name: "last_name",
+    type: "text",
+    placeholder: "Last name",
+  },
+  { label: "Email", name: "email", type: "email", placeholder: "Email" },
+  {
+    label: "Password",
+    name: "password",
+    type: "password",
+    placeholder: "Password",
+  },
+  {
+    label: "Phone Number",
+    name: "phone_number",
+    type: "tel",
+    placeholder: "Phone number",
+  },
+  {
+    label: "Date of Birth",
+    name: "date_of_birth",
+    type: "date",
+    placeholder: "Date of birth",
+  },
+  {
+    label: "Address",
+    name: "address",
+    type: "text",
+    placeholder: "Address",
+  },
+];
+
 const RegisterForm = () => {
-  const [formError, setFormError] = useState<string | null>(null);;
+  const [formError, setFormError] = useState<string | null>(null);
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
     (values: RegisterFormValues) => registerUser(values),
     {
-      onError: (error: Error) => {
-        setFormError(error.message);
-      },
       onSuccess: () => {
         setFormError(null);
       },
+      onError: (error: AxiosError) => {
+        setFormError(error.message);
+      }
     }
   );
 
@@ -62,156 +103,51 @@ const RegisterForm = () => {
           validationSchema={RegisterSchema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, handleChange, handleBlur }) => (
             <Form className="space-y-4 mt-10 mb-2">
-              <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  First Name
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="first_name"
-                    name="first_name"
-                    type="text"
-                    placeholder="First Name"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="first_name"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
+              {FormField.map(({ label, name, type, placeholder }) => (
+                <div key={name}>
+                  <label className="block text-sm font-medium leading-6 text-gray-900">
+                    {label}
+                  </label>
+                  <div className="mt-2">
+                    <Field
+                      id={name}
+                      name={name}
+                      type={type}
+                      placeholder={placeholder}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        setFormError(null);
+                        handleChange(e);
+                      }}
+                      onBlur={handleBlur}
+                      className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6"
+                    />
+                    <ErrorMessage
+                      name={name}
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Last Name
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="last_name"
-                    name="last_name"
-                    type="text"
-                    placeholder="Last name"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="last_name"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Email
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
-              <div className="mt-2">
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Password
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="password"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Phone Number
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="phone_number"
-                    name="phone_number"
-                    type="tel"
-                    placeholder="Phone number"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="phone_number"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Date of Birth
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="date_of_birth"
-                    name="date_of_birth"
-                    type="date"
-                    placeholder="Date of birth"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="date_of_birth"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium leading-6 text-gray-900">
-                  Address
-                </label>
-                <div className="mt-2">
-                  <Field
-                    id="address"
-                    name="address"
-                    type="text"
-                    placeholder="Address"
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-                  />
-                  <ErrorMessage
-                    name="address"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
+              ))}
 
               {isError && formError && (
                 <p className="text-sm text-red-500">{formError}</p>
               )}
               {isSuccess && (
-                <p className="text-green-800 bg-[#b3ffb99c] py-1 px-4 w-max text-sm rounded mb-3">Registration successful</p>
+                <p className="text-green-800 bg-[#b3ffb99c] py-1 px-4 w-max text-sm rounded mb-3">
+                  Registration successful
+                </p>
               )}
 
               <button
                 type="submit"
                 disabled={isSubmitting || isLoading}
-                className={`flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-active transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+                className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-active shadow-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                   isSubmitting || isLoading
                     ? "bg-active cursor-not-allowed"
-                    : "cursor-pointer"
+                    : "bg-secondary cursor-pointer"
                 }`}
               >
                 {isSubmitting || isLoading ? "Registering..." : "Register"}
@@ -223,7 +159,7 @@ const RegisterForm = () => {
         <p className="text-center text-sm text-gray-500">
           Already have an account?{" "}
           <Link
-            to="/login"
+            to="/"
             className="font-semibold leading-6 text-textG hover:text-green-700 hover:underline"
           >
             Login
