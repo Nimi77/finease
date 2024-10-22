@@ -4,12 +4,12 @@ export default {
   theme: {
     extend: {
       fontFamily:{
-        PTSans: ["PT Sans", "sans-serif"],
         NotoSans: ["Noto Sans JP", "sans-serif"]
       },
       backgroundColor: {
-        primary: "#FFFFFF",
+        primary: "#FAFEFE",
         secondary: "#2A3B39",
+        secondary2: "#51726C",
         active: "#425C5A"
       },
       colors : {

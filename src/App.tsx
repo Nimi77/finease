@@ -7,14 +7,16 @@ import Home from "./components/Dashboard/Main";
 import Deposit from "./components/Dashboard/Deposit";
 import Transfer from "./components/Dashboard/Transfer";
 import Account from "./components/Dashboard/Account";
+import Transactions from "./components/Dashboard/Transactions";
+import NotFoundPage from "./pages/NotFoundPage";
 import "./App.css";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard"
           element={
@@ -26,9 +28,10 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="transfer" element={<Transfer />} />
+          <Route path="transactions" element={<Transactions />} />
           <Route path="account" element={<Account />} />
         </Route>
-        <Route path="/logout" element={<Dashboard />}></Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

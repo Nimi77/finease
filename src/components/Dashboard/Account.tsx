@@ -35,8 +35,8 @@ const Account = () => {
 
   return (
     <div className="account-page p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Account Details</h1>
-      <div className="account-info mt-4 space-y-3">
+      <h1 className="text-xl font-bold text-textG">Account Details</h1>
+      <div className="account-info my-4 space-y-3 text-[0.94rem]">
         <div className="flex justify-between">
           <span className="font-medium text-gray-600">Account Number:</span>
           <span className="text-gray-800">{account_number}</span>
@@ -77,10 +77,10 @@ const Account = () => {
         </div>
       </div>
       {avatar && (
-        <div className="mt-4">
+        <div>
           <img
             src={avatar}
-            alt={`${first_name} ${last_name}`}
+            alt="user's avatar"
             className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-md mx-auto"
           />
         </div>

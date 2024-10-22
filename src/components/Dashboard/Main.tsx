@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { BiSolidHide, BiSolidShow } from "react-icons/bi";
+import { BiSolidHide, BiSolidShow, BiTransferAlt } from "react-icons/bi";
 import { MdAccountBalanceWallet } from "react-icons/md";
-import { CiMoneyCheck1 } from "react-icons/ci";
+import { PiHandDepositDuotone } from "react-icons/pi";
 import axiosInstance from "../../api/axiosInstance";
 import { useAuthStore } from "../../store/authStore";
 import { useQuery } from "react-query";
-import DashboardSteps from "./Three-Step";
+import Transactions from "./Transactions";
 
 const Home = () => {
   const [showBalance, setShowBalance] = useState(false);
-  const [showDeposit, setShowDeposit] = useState(false);
 
   const fetchUserProfile = async () => {
     const { data } = await axiosInstance.get("/api/v1/profile");
@@ -27,9 +26,9 @@ const Home = () => {
 
   if (isLoading) return <div>Loading..</div>;
   if (error) return <div>Error fetching user data</div>;
- 
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex gap-4">
         <div className="w-full h-40 bg-[#AC7E13] text-white p-4 flex flex-col justify-between rounded-md">
           <div className="heading flex justify-between items-center">
@@ -54,35 +53,39 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <div className="bg-secondary text-white w-full h-40 p-4 flex flex-col justify-between rounded-md">
-          <div className="heading flex justify-between items-center">
-            <div className="bg-active p-2 rounded-full">
-              <CiMoneyCheck1 size={20} />
+      </div>
+      <div className="flex items-center justify-between gap-4">
+        <div className="bg-secondary2 text-white rounded-md border p-4 shadow-md">
+          <h3 className="text-[0.92rem] font-semibold">
+            Make your first deposit
+          </h3>
+          <p className="pt-2 pb-5 text-sm leading-6">
+            Making your first deposit is a crucial step toward unlocking world
+            of opportunities.
+          </p>
+          <button className="bg-secondary text-sm px-4 py-[6px] rounded hover:bg-[#3C5351] transition-colors duration-500 ease-in-out">
+            <div className="flex items-center justify-center gap-2">
+              <BiTransferAlt size={20} />
+              Deposit
             </div>
-            <h3 className="font-semibold">Total Deposit</h3>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xl">
-              {showDeposit ? `₦${user?.account?.balance}` : "****"}
-            </span>
-            <button
-              className="p-0 m-0"
-              onClick={() => setShowDeposit(!showDeposit)}
-            >
-              {showDeposit ? (
-                <BiSolidShow size={20} />
-              ) : (
-                <BiSolidHide size={20} />
-              )}
-            </button>
-          </div>
+          </button>
+        </div>
+        <div className="bg-secondary text-white rounded-md border p-4 shadow-md">
+          <h3 className="text-[0.92rem] font-semibold">Transfer</h3>
+          <p className="pt-2 pb-5 text-sm leading-6">
+            Seamlessly transfer funds to other accounts within our network.
+            Enjoy swift and secure transactions.
+          </p>
+          <button className="bg-secondary2 text-sm px-4 py-[6px] rounded hover:bg-active transition-colors duration-500 ease-in-out">
+            <div className="flex items-center justify-center gap-2">
+              <PiHandDepositDuotone size={20} />
+              Transfer
+            </div>
+          </button>
         </div>
       </div>
-      <div className="w-full bg-white rounded-md border p-4 shadow-md">
-        <DashboardSteps />
-      </div>
       <div className="transactions">
-
+        <Transactions />
       </div>
     </div>
   );

@@ -67,18 +67,18 @@ const RegisterForm = () => {
       },
       onError: (error: AxiosError) => {
         setFormError(error.message);
-      }
+      },
     }
   );
 
-  const handleSubmit = (
-    values: RegisterFormValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
+  const handleSubmit = (values: RegisterFormValues, formikHelpers: any) => {
+    const { setSubmitting, resetForm } = formikHelpers;
     setFormError(null);
+
     mutate(values, {
       onSettled: () => {
         setSubmitting(false);
+        resetForm();
       },
     });
   };
@@ -131,20 +131,22 @@ const RegisterForm = () => {
                   </div>
                 </div>
               ))}
-
-              {isError && formError && (
-                <p className="text-sm text-red-500">{formError}</p>
-              )}
-              {isSuccess && (
-                <p className="text-green-800 bg-[#b3ffb99c] py-1 px-4 w-max text-sm rounded mb-3">
-                  Registration successful
-                </p>
-              )}
+              {/* Success and Error Message */}
+              <div>
+                {isError && formError && (
+                  <p className="text-sm text-red-500">{formError}</p>
+                )}
+                {isSuccess && (
+                  <p className="text-green-800 bg-[#B3FFB99C] py-1 px-4 w-max text-sm rounded mb-3">
+                    Registration successful
+                  </p>
+                )}
+              </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting || isLoading}
-                className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-active shadow-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+                className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-active shadow-sm transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                   isSubmitting || isLoading
                     ? "bg-active cursor-not-allowed"
                     : "bg-secondary cursor-pointer"
@@ -155,16 +157,17 @@ const RegisterForm = () => {
             </Form>
           )}
         </Formik>
-
-        <p className="text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <Link
-            to="/"
-            className="font-semibold leading-6 text-textG hover:text-green-700 hover:underline"
-          >
-            Login
-          </Link>
-        </p>
+        <div className="text-center">
+          <p className="text-sm text-gray-500">
+            Already have an account?{" "}
+            <Link
+              to="/"
+              className="font-semibold leading-6 text-textG hover:text-green-700 hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

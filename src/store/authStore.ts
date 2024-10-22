@@ -1,9 +1,7 @@
 import { create } from "zustand";
-import md5 from "md5";
 
 interface User {
   name: string;
-  avatar: string;
   email: string;
 }
 
@@ -21,14 +19,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
 
   setTokens: (accessToken, refreshToken, user) => {
-    const gravatarUrl = `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`
     set(() => ({
       accessToken,
       refreshToken,
-      user: {
-        ...user,
-        avatar: gravatarUrl,
-      },
+      user
     }));
     localStorage.setItem("access_token", accessToken);
     localStorage.setItem("refresh_token", refreshToken);

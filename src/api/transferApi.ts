@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-interface TransferValues {
+export interface TransferValues {
   account_number: number;
   amount: number;
   narration: string;
