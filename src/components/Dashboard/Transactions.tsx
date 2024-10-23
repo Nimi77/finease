@@ -20,11 +20,9 @@ const Transactions = () => {
     }
   );
 
-  console.log(transactionResponse);
-
   // extracting transactions and meta from the response
-  const transactions = transactionResponse?.data ?? [];
-  const meta = transactionResponse?.meta ?? { count: 0, page: 1, limit: 10 };
+  const transactions = transactionResponse?.transactions || [];
+  const meta = transactionResponse?.meta || { count: 0, page: 1, limit: 10 };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching transactions</div>;
@@ -40,11 +38,12 @@ const Transactions = () => {
 
   return (
     <>
-      <h2 className="text-lg font-semibold mb-4">Transaction History</h2>
-
+      <div className="transaction-heading">
+        <h2 className="text-lg font-semibold mb-4">Transaction History</h2>
+      </div>
       <div className="transaction-list space-y-4">
         {transactions.length === 0 ? (
-          <p>No transaction found.</p>
+          <p className="text-sm">No transaction found.</p>
         ) : (
           transactions.map((transaction: Transaction) => (
             <div
@@ -81,11 +80,15 @@ const Transactions = () => {
                   </span>
                 </div>
                 <div className="text-sm text-gray-500">
-                  <span>From: </span>
+                  <span>
+                    {transaction.transaction_type === "deposit"
+                      ? "From: "
+                      : "To: "}
+                  </span>
                   <span className="font-medium">
                     {transaction.recipient.account_name}
-                  </span>{" "}
-                  <span>at {transaction.recipient.bank_name}</span>
+                  </span>
+                  <span> at {transaction.recipient.bank_name}</span>
                 </div>
               </div>
               <div className="transaction-amount text-right flex flex-col space-y-1">

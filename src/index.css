@@ -5,7 +5,7 @@
 }
 body {
   margin: auto;
-  background-color: #FAFEFE;
+  background-color: #fafefe;
   height: 100vh;
   width: 100%;
   font-family: "Noto Sans JP", sans-serif;
@@ -17,8 +17,8 @@ input:focus {
   outline: none;
   border: none;
 }
-label{
-  font-weight:semi-bold;
+label {
+  font-weight: semi-bold;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

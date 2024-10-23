@@ -44,8 +44,8 @@ const Deposit = () => {
   };
 
   return (
-    <div className="deposit-page min-h-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h3 className="text-textG text-xl font-semibold leading-9">
+    <div className="deposit-page min-h-full max-w-2xl mx-auto p-6 bg-white rounded-md shadow">
+      <h3 className="text-textG text-lg font-semibold leading-9">
         Deposit Funds, Unlock New Opportunities
       </h3>
 

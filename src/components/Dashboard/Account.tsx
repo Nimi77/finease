@@ -34,9 +34,9 @@ const Account = () => {
   } = user;
 
   return (
-    <div className="account-page p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
-      <h1 className="text-xl font-bold text-textG">Account Details</h1>
-      <div className="account-info my-4 space-y-3 text-[0.94rem]">
+    <div className="account-page p-6 max-w-2xl mx-auto bg-white rounded-md shadow">
+      <h1 className="text-lg font-bold text-textG">Account Details</h1>
+      <div className="account-info my-4 space-y-3 text-[0.92rem]">
         <div className="flex justify-between">
           <span className="font-medium text-gray-600">Account Number:</span>
           <span className="text-gray-800">{account_number}</span>

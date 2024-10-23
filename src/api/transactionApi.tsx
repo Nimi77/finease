@@ -11,18 +11,16 @@ export interface Transaction {
   balance_after: string;
   balance_before: string;
   created_at: string;
-  fee: string;
   narration: string;
   recipient: Recipient;
   reference: string;
   status: string;
   transaction_type: string;
-  updated_at: string;
 }
 
 // The structure of the API response (with pagination/meta)
 export interface TransactionResponse {
-  data: Transaction[];
+  transactions: Transaction[];
   meta: {
     count: number;
     page: number;
@@ -53,6 +51,5 @@ export const fetchTransactions = async (
     params: filteredParams,
   });
 
-  console.log("API Response data:", data);
   return data;
 };

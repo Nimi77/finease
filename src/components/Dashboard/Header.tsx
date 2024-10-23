@@ -23,7 +23,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   });
 
   return (
-    <header className="py-4 px-6 border-b border-gray-200 fixed top-0 lg:left-64 left-0 right-0 z-10 bg-white">
+    <header className="py-4 px-6 border-b border-gray-200 fixed top-0 lg:left-64 left-0 right-0 z-10">
       <div className="nav flex justify-between items-center">
         {/* Hamburger menu icon for mobile */}
         <button className="lg:hidden" onClick={toggleSidebar}>
@@ -53,7 +53,9 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
               <h3 className="font-NotoSans font-medium text-md">
                 Hello, {user?.first_name || "Guest"}
               </h3>
-              <p className="text-sm hidden lg:block">Welcome to Your Dashboard</p>
+              <p className="text-sm hidden lg:block">
+                Welcome to Your Dashboard
+              </p>
             </div>
           </div>
         )}

@@ -21,7 +21,6 @@ const Sidebar = ({
     navigate("/login");
   };
 
-  // Function to determine if the screen is large or smaller
   const handleLinkClick = () => {
     if (window.innerWidth < 1024) {
       toggleSidebar();
@@ -66,7 +65,7 @@ const Sidebar = ({
               </Link>
             </li>
             <li>
-              <Link to="/dashboard/settings" onClick={handleLinkClick}>
+              <Link to="/" onClick={handleLinkClick}>
                 <CiSettings size={18} color="#EEB531" />
                 Settings
               </Link>
