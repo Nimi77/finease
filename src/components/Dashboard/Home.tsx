@@ -42,16 +42,25 @@ const Home = () => {
             <div className="bg-[#eeb5318c] p-2 rounded-full">
               <MdAccountBalanceWallet size={20} />
             </div>
-            <h3 className="font-semibold">Total Balance</h3>
+            <h3 className="font-semibold text-[0.92rem]">Total Balance</h3>
           </div>
           <div className="flex items-center justify-between gap-10">
             {isLoading ? (
-              <Skeleton width={80} height={20} />
+              <Skeleton
+                width={80}
+                height={20}
+                className="animate-pulse bg-gray-50"
+              />
             ) : error ? (
               <span>****</span>
             ) : (
               <span className="text-xl">
-                {showBalance ? `₦${user?.account?.balance}` : "****"}
+                {showBalance
+                  ? `${new Intl.NumberFormat("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
+                    }).format(user?.account?.balance ?? 0)}`
+                  : "****"}
               </span>
             )}
             <button

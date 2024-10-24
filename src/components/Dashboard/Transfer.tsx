@@ -1,3 +1,4 @@
+import { NumberFormatValues, NumericFormat } from "react-number-format";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TransactionSchema } from "../../schema/Schema";
 import { useMutation } from "react-query";
@@ -7,7 +8,7 @@ import {
   makeTransfer,
   TransferValues,
   validateAccountNumber,
-} from "../../api/transferApi";
+} from "../../api/transfer";
 
 const Transfer = () => {
   const [formError, setFormError] = useState<string | null>(null);
@@ -40,6 +41,8 @@ const Transfer = () => {
       onError: (error: AxiosError) => {
         if (error.response?.status === 422) {
           setFormError("Account Not Found");
+        } else {
+          setFormError(error.message);
         }
         // Disable form if validation fails
         setIsAccountValid(false);
@@ -88,14 +91,20 @@ const Transfer = () => {
 
       <Formik
         initialValues={{
-          account_number: 0,
-          amount: 0,
+          account_number: "",
+          amount: "",
           narration: "",
         }}
         validationSchema={TransactionSchema}
         onSubmit={handleTransfer}
       >
-        {({ isSubmitting, handleChange, handleBlur }) => (
+        {({
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+          values,
+        }) => (
           <Form className="tranfer-form">
             <div className="space-y-4 my-6">
               {/* Account Field */}
@@ -162,13 +171,21 @@ const Transfer = () => {
                       Amount
                     </label>
                     <div>
-                      <Field
+                      <NumericFormat
+                        id="amount"
                         name="amount"
-                        type="number"
+                        value={values.amount}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        allowNegative={false}
                         placeholder="Amount"
-                        onChange={handleChange}
+                        onValueChange={(values: NumberFormatValues) =>
+                          setFieldValue("amount", values.floatValue ?? "")
+                        }
                         onBlur={handleBlur}
-                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6 transition-all ease-in-out duration-200"
+                        valueIsNumericString
                       />
                       <ErrorMessage
                         name="amount"

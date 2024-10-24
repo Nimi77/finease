@@ -1,8 +1,8 @@
 import axiosInstance from "./axiosInstance";
 
 export interface TransferValues {
-  account_number: number;
-  amount: number;
+  account_number: string;
+  amount: string;
   narration: string;
 }
 
@@ -18,10 +18,14 @@ export const makeTransfer = async ({
   narration,
   account_number,
 }: TransferValues) => {
-  const response = await axiosInstance.post("/api/v1/accounts/transfer", {
-    account_number,
-    amount,
-    narration,
-  });
-  return response;
+  try {
+    const response = await axiosInstance.post("/api/v1/accounts/transfer", {
+      account_number,
+      amount,
+      narration,
+    });
+    return response;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.error);
+  }
 };

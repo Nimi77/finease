@@ -13,14 +13,14 @@ interface LoginCredentials {
   email: string;
   password: string;
 }
-interface LoginResponse{
+interface LoginResponse {
   access_token: string;
   refresh_token: string;
   user: {
     name: string;
     avatar: string;
     email: string;
-  }
+  };
 }
 
 export const registerUser = async (user: UserCredentials): Promise<void> => {
@@ -28,17 +28,19 @@ export const registerUser = async (user: UserCredentials): Promise<void> => {
     const response = await axiosInstance.post("api/v1/users", user);
     return response.data;
   } catch (error: any) {
-    console.error("Error response:", error.response);
-
-    if (error.response?.data?.error === "Validation failed: Email has already been taken") {
+    if (
+      error.response?.data?.error ===
+      "Validation failed: Email has already been taken"
+    ) {
       throw new Error("User already exists");
-    } 
-    // Fallback error message
-    throw new Error("Registration failed. Try again later.");
+    }
+    throw new Error(error.response?.data?.error);
   }
 };
 
-export const loginUser = async (credentials: LoginCredentials): Promise<LoginResponse> => {
+export const loginUser = async (
+  credentials: LoginCredentials
+): Promise<LoginResponse> => {
   try {
     const response = await axiosInstance.post("api/v1/auth/login", credentials);
     return response.data;

@@ -3,7 +3,7 @@ import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import Register from "./pages/RegisterPage";
 import Login from "./pages/LoginPage";
 import Dashboard from "./pages/DashboardPage";
-import Home from "./components/Dashboard/Main";
+import Home from "./components/Dashboard/Home";
 import Deposit from "./components/Dashboard/Deposit";
 import Transfer from "./components/Dashboard/Transfer";
 import Account from "./components/Dashboard/Account";

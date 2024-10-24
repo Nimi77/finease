@@ -32,7 +32,7 @@ const Sidebar = ({
       initial={{ x: "-100%" }}
       animate={{ x: isOpen ? "0%" : "-100%" }}
       transition={{ type: "tween", duration: 0.6 }}
-      className={`sidebar bg-secondary text-white w-64 h-screen fixed top-0 left-0 z-40 py-8 px-6 block lg:relative`}
+      className={`sidebar bg-secondary text-white w-64 h-full fixed top-0 left-0 bottom-0 z-40 py-8 px-6`}
       role="navigation"
       aria-label="Sidebar navigation"
     >
@@ -53,7 +53,7 @@ const Sidebar = ({
               </Link>
             </li>
             <li>
-              <Link to="/dashboard/transfer" onClick={handleLinkClick}>
+              <Link to="/dashboard/transactions" onClick={handleLinkClick}>
                 <BiTransferAlt size={18} color="#EEB531" />
                 Transactions
               </Link>
@@ -65,7 +65,7 @@ const Sidebar = ({
               </Link>
             </li>
             <li>
-              <Link to="/" onClick={handleLinkClick}>
+              <Link to="" onClick={handleLinkClick}>
                 <CiSettings size={18} color="#EEB531" />
                 Settings
               </Link>

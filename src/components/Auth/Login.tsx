@@ -1,11 +1,12 @@
-import { useMutation } from "react-query";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useAuthStore } from "../../store/authStore";
+import { loginUser } from "../../api/auth";
 import { LoginSchema } from "../../schema/Schema";
-import { loginUser } from "../../api/authApi";
 import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
+import { useMutation } from "react-query";
 import { AxiosError } from "axios";
+
 
 interface LoginCredentials {
   email: string;
@@ -26,7 +27,7 @@ const LoginForm = () => {
       },
       onError: (error: AxiosError) => {
         setFormError(error.message);
-      }
+      },
     }
   );
 
@@ -43,8 +44,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center m-auto px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex min-h-full justify-center m-auto px-6 py-12">
+      <div className="w-full max-w-sm">
         <h2 className="text-center text-textG text-2xl font-bold leading-9 tracking-tight">
           Login to your account
         </h2>

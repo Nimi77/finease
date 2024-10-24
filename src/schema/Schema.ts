@@ -4,15 +4,20 @@ import dayjs from "dayjs";
 export const LoginSchema = Yup.object({
   email: Yup.string().email("Invalid Email").required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
 });
 
 export const RegisterSchema = Yup.object({
   first_name: Yup.string().required("First name is required"),
   last_name: Yup.string().required("Last name is required"),
-  email: Yup.string().required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  email: Yup.string()
+    .email("Please enter a valid email address")
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email must be in a valid format")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
   phone_number: Yup.string()
     .matches(/^[0-9]+$/, "Must be a number")
     .min(10, "Phone number must be at least 10 digits")
@@ -35,16 +40,24 @@ export const RegisterSchema = Yup.object({
 
 export const DepositSchema = Yup.object().shape({
   amount: Yup.number()
+    .typeError("Amount must be a valid number")
     .required("The least deposit is ₦500")
-    .positive("Invalid Amount")
-    .min(500, "The least deposit is ₦500"),
-  narration: Yup.string().required("Narration is required"),
+    .positive("Amount must be positive")
+    .min(500, "The least deposit is ₦500")
+    .max(5000000, "The maximum deposit is ₦5,000,000"),
+  narration: Yup.string()
+    .required("Narration is required")
+    .max(40, "Narration must be less than 40 characters"),
 });
 
 export const TransactionSchema = Yup.object().shape({
   amount: Yup.number()
-    .required("The least deposit is ₦500")
-    .positive("Invalid Amount")
-    .min(500, "The least deposit is ₦500"),
-  narration: Yup.string().required("Narration is required"),
+    .required("Amount is required")
+    .positive("Amount must be a positive value")
+    .min(500, "The minimum transaction amount is ₦500")
+    .max(1000000, "The maximum transaction amount is ₦1,000,000"),
+  narration: Yup.string()
+    .required("Narration is required")
+    .min(4, "Narration must be at least 4 characters long")
+    .max(40, "Narration must be less than 40 characters"),
 });

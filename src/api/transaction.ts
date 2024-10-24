@@ -1,15 +1,15 @@
 import axiosInstance from "./axiosInstance";
 
 interface Recipient {
-  account_number: string;
+  account_number: number;
   account_name: string;
   bank_name: string;
 }
 
 export interface Transaction {
-  amount: string;
-  balance_after: string;
-  balance_before: string;
+  amount: number;
+  balance_after: number;
+  balance_before: number;
   created_at: string;
   narration: string;
   recipient: Recipient;

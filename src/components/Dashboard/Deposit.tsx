@@ -1,27 +1,15 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { DepositSchema } from "../../schema/Schema";
-import axiosInstance from "../../api/axiosInstance";
+import { DepositValues, makeDeposit } from "../../api/deposit";
 import { useMutation } from "react-query";
 import { ChangeEvent, useState } from "react";
 import { AxiosError } from "axios";
-
-interface DepositValues {
-  amount: number;
-  narration: string;
-}
-
-const makeDeposit = async ({ amount, narration }: DepositValues) => {
-  const response = await axiosInstance.post("/api/v1/accounts/deposit", {
-    amount,
-    narration,
-  });
-  return response.data;
-};
+import { NumberFormatValues, NumericFormat } from "react-number-format";
 
 const Deposit = () => {
   const [formError, setFormError] = useState<string | null>(null);
 
-  // React Query's  for handling deposits
+  // React Query's mutation for handling deposits
   const { mutate, isLoading, isError, isSuccess } = useMutation(makeDeposit, {
     onSuccess: () => {
       setFormError(null);
@@ -31,50 +19,64 @@ const Deposit = () => {
     },
   });
 
-  const handleDeposit = (values: DepositValues, formikHelpers: any) => {
-    const { setSubmitting, resetForm } = formikHelpers;
-
+  const handleDeposit = (
+    values: DepositValues,
+    { setSubmitting, resetForm }: any
+  ) => {
     setFormError(null);
     mutate(values, {
       onSettled: () => {
         setSubmitting(false);
-        resetForm();
+        if (isSuccess) {
+          resetForm();
+        }
       },
     });
   };
 
   return (
-    <div className="deposit-page min-h-full max-w-2xl mx-auto p-6 bg-white rounded-md shadow">
+    <div className="deposit-c min-h-full max-w-2xl mx-auto p-6 bg-white rounded-md shadow">
       <h3 className="text-textG text-lg font-semibold leading-9">
         Deposit Funds, Unlock New Opportunities
       </h3>
 
       <Formik
         initialValues={{
-          amount: 0,
+          amount: "",
           narration: "",
         }}
         validationSchema={DepositSchema}
         onSubmit={handleDeposit}
       >
-        {({ isSubmitting, handleChange, handleBlur }) => (
+        {({
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+          values,
+        }) => (
           <Form className="deposit-form mt-6">
+            {/* Amount Field */}
             <div>
               <label className="block text-sm font-medium leading-6 text-gray-900">
                 Amount
               </label>
               <div className="mt-2">
-                <Field
+                <NumericFormat
                   id="amount"
                   name="amount"
-                  type="number"
+                  value={values.amount}
+                  thousandSeparator={true}
+                  decimalScale={2}
+                  fixedDecimalScale={true}
+                  allowNegative={false}
                   placeholder="Amount"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    setFormError(null);
-                    handleChange(e);
-                  }}
+                  onValueChange={(values: NumberFormatValues) =>
+                    setFieldValue("amount", values.floatValue ?? "")
+                  }
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6 overflow-hidden transition-all ease-in-out duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6 transition-all ease-in-out duration-200"
+                  valueIsNumericString
                 />
                 <ErrorMessage
                   name="amount"
@@ -83,6 +85,8 @@ const Deposit = () => {
                 />
               </div>
             </div>
+
+            {/* Narration Field */}
             <div className="mt-4 mb-6">
               <label className="block text-sm font-medium leading-6 text-gray-900">
                 Narration
@@ -107,6 +111,8 @@ const Deposit = () => {
                 />
               </div>
             </div>
+
+            {/* Error and Success Messages */}
             <div className="mb-2">
               {isError && <p className="text-red-500 text-sm">{formError}</p>}
               {isSuccess && (
@@ -115,6 +121,8 @@ const Deposit = () => {
                 </p>
               )}
             </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting || isLoading}

@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegisterSchema } from "../../schema/Schema";
-import { registerUser } from "../../api/authApi";
+import { registerUser } from "../../api/auth";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
@@ -78,14 +78,16 @@ const RegisterForm = () => {
     mutate(values, {
       onSettled: () => {
         setSubmitting(false);
-        resetForm();
+        if (isSuccess) {
+          resetForm();
+        }
       },
     });
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex min-h-full justify-center m-auto px-6 py-12">
+      <div className="w-full max-w-sm">
         <h2 className="text-center text-textG text-2xl font-bold leading-9">
           Create an account
         </h2>
