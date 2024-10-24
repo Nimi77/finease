@@ -115,7 +115,7 @@ const Transactions = () => {
             {transactions.map((transaction: Transaction) => (
               <div
                 key={transaction.reference}
-                className="transaction-card bg-white shadow-md p-4 rounded-md flex flex-col md:flex-row justify-between items-start"
+                className="transaction-card bg-white shadow-md p-4 rounded-md flex justify-between items-center"
               >
                 <div className="transaction-info space-y-1">
                   <div>
