@@ -1,10 +1,12 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegisterSchema } from "../../schema/Schema";
+import { RxDoubleArrowLeft } from "react-icons/rx";
 import { registerUser } from "../../api/auth";
+import { Formik, Form } from "formik";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { AxiosError } from "axios";
+import FormInput from "./FormInput";
 
 interface RegisterFormValues {
   first_name: string;
@@ -16,161 +18,199 @@ interface RegisterFormValues {
   phone_number: string;
 }
 
-const FormField = [
-  {
-    label: "First Name",
-    name: "first_name",
-    type: "text",
-    placeholder: "First name",
-  },
-  {
-    label: "Last Name",
-    name: "last_name",
-    type: "text",
-    placeholder: "Last name",
-  },
-  { label: "Email", name: "email", type: "email", placeholder: "Email" },
-  {
-    label: "Password",
-    name: "password",
-    type: "password",
-    placeholder: "Password",
-  },
-  {
-    label: "Phone Number",
-    name: "phone_number",
-    type: "tel",
-    placeholder: "Phone number",
-  },
-  {
-    label: "Date of Birth",
-    name: "date_of_birth",
-    type: "date",
-    placeholder: "Date of birth",
-  },
-  {
-    label: "Address",
-    name: "address",
-    type: "text",
-    placeholder: "Address",
-  },
-];
-
 const RegisterForm = () => {
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMss, setSuccessMss] = useState<string | null>(null);
 
   const { mutate, isLoading, isError, isSuccess } = useMutation(
     (values: RegisterFormValues) => registerUser(values),
     {
-      onSuccess: () => {
-        setFormError(null);
-      },
       onError: (error: AxiosError) => {
         setFormError(error.message);
+        setSuccessMss(null);
       },
     }
   );
 
-  const handleSubmit = (values: RegisterFormValues, formikHelpers: any) => {
+  const handleSubmit = async (
+    values: RegisterFormValues,
+    formikHelpers: any
+  ) => {
     const { setSubmitting, resetForm } = formikHelpers;
     setFormError(null);
 
     mutate(values, {
+      onSuccess: () => {
+        setSuccessMss("Registration successful!");
+        resetForm();
+      },
       onSettled: () => {
         setSubmitting(false);
-        if (isSuccess) {
-          resetForm();
-        }
       },
     });
   };
 
   return (
-    <div className="flex min-h-full justify-center m-auto px-6 py-12">
-      <div className="w-full max-w-sm">
-        <h2 className="text-center text-textG text-2xl font-bold leading-9">
-          Create an account
-        </h2>
-
-        <Formik
-          initialValues={{
-            first_name: "",
-            last_name: "",
-            date_of_birth: "",
-            email: "",
-            password: "",
-            address: "",
-            phone_number: "",
-          }}
-          validationSchema={RegisterSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting, handleChange, handleBlur }) => (
-            <Form className="space-y-4 mt-10 mb-2">
-              {FormField.map(({ label, name, type, placeholder }) => (
-                <div key={name}>
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
-                    {label}
-                  </label>
-                  <div className="mt-2">
-                    <Field
-                      id={name}
-                      name={name}
-                      type={type}
-                      placeholder={placeholder}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        setFormError(null);
-                        handleChange(e);
-                      }}
-                      onBlur={handleBlur}
-                      className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6"
+    <div className="m-auto">
+      <Link
+        to="/"
+        className="absolute top-4 right-4 text-primaryText hover:text-linkText transition-transform transform hover:-translate-x-1"
+      >
+        <button className="flex items-center justify-center text-sm border-0">
+          <RxDoubleArrowLeft className="mr-1 animate-pulse" /> Go Back Home
+        </button>
+      </Link>
+      <main
+        className="flex justify-center pt-20 pb-8"
+        aria-labelledby="register-heading"
+      >
+        <div className="w-full max-w-md" aria-live="polite">
+          <div className="text-center">
+            <h1
+              id="register-heading"
+              className="text-primaryText text-2xl font-bold leading-9"
+            >
+              Create an account
+            </h1>
+          </div>
+          <Formik
+            initialValues={{
+              first_name: "",
+              last_name: "",
+              date_of_birth: "",
+              email: "",
+              password: "",
+              address: "",
+              phone_number: "",
+            }}
+            validationSchema={RegisterSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, handleChange, handleBlur }) => (
+              <Form className="registraton-form mt-10 mb-2">
+                <div className="user-details md:space-y-2 space-y-4">
+                  <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+                    <FormInput
+                      label="First Name"
+                      name="first_name"
+                      type="text"
+                      placeholder="First name"
+                      setFormError={setFormError}
+                      setSuccessMss={setSuccessMss}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      className="w-full md:w-auto flex-1"
                     />
-                    <ErrorMessage
-                      name={name}
-                      component="div"
-                      className="text-red-500 text-sm"
+                    <FormInput
+                      label="Last Name"
+                      name="last_name"
+                      type="text"
+                      placeholder="Last name"
+                      setFormError={setFormError}
+                      setSuccessMss={setSuccessMss}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      className="w-full md:w-auto flex-1"
                     />
                   </div>
+                  <FormInput
+                    label="Email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email address"
+                    setFormError={setFormError}
+                    setSuccessMss={setSuccessMss}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                  <FormInput
+                    label="Password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    setFormError={setFormError}
+                    setSuccessMss={setSuccessMss}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
+                  <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+                    <FormInput
+                      label="Phone Number"
+                      name="phone_number"
+                      type="tel"
+                      placeholder="Phone number"
+                      setFormError={setFormError}
+                      setSuccessMss={setSuccessMss}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      className="w-full md:w-auto flex-1"
+                    />
+                    <FormInput
+                      label="Date of Birth"
+                      name="date_of_birth"
+                      type="date"
+                      placeholder="Date of Birth"
+                      setFormError={setFormError}
+                      setSuccessMss={setSuccessMss}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      className="w-full md:w-auto"
+                    />
+                  </div>
+                  <FormInput
+                    label="Address"
+                    name="address"
+                    type="text"
+                    placeholder="Address"
+                    setFormError={setFormError}
+                    setSuccessMss={setSuccessMss}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                  />
                 </div>
-              ))}
-              {/* Success and Error Message */}
-              <div>
-                {isError && formError && (
-                  <p className="text-sm text-red-500">{formError}</p>
-                )}
-                {isSuccess && (
-                  <p className="text-green-800 bg-[#B3FFB99C] py-1 px-4 w-max text-sm rounded mb-3">
-                    Registration successful
-                  </p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting || isLoading}
-                className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-active shadow-sm transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
-                  isSubmitting || isLoading
-                    ? "bg-active cursor-not-allowed"
-                    : "bg-secondary cursor-pointer"
-                }`}
+                {/* success and error message */}
+                <div aria-live="assertive" className="text-center mt-2">
+                  {isError && formError && (
+                    <p className="text-sm bg-red-600 text-white py-1 px-4 w-max rounded">
+                      {formError}
+                    </p>
+                  )}
+                  {isSuccess && successMss && (
+                    <p className="text-sm text-green-800 bg-[#B3FFB99C] py-1 px-4 w-max rounded">
+                      {successMss}
+                    </p>
+                  )}
+                </div>
+                {/* registraton button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting || isLoading}
+                  className={`flex w-full justify-center font-semibold leading-6 text-sm text-white px-3 py-1.5 mt-4 rounded-md shadow-sm transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+                    isSubmitting || isLoading
+                      ? "bg-loading cursor-not-allowed"
+                      : "bg-secondary cursor-pointer hover:bg-active"
+                  }`}
+                  aria-busy={isSubmitting || isLoading}
+                  aria-live="assertive"
+                >
+                  {isSubmitting || isLoading ? "Registering..." : "Register"}
+                </button>
+              </Form>
+            )}
+          </Formik>
+          <div className="text-center">
+            <p className="text-sm text-gray-500">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="font-semibold leading-6 text-primaryText hover:text-linkText hover:underline"
               >
-                {isSubmitting || isLoading ? "Registering..." : "Register"}
-              </button>
-            </Form>
-          )}
-        </Formik>
-        <div className="text-center">
-          <p className="text-sm text-gray-500">
-            Already have an account?{" "}
-            <Link
-              to="/"
-              className="font-semibold leading-6 text-textG hover:text-green-700 hover:underline"
-            >
-              Login
-            </Link>
-          </p>
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

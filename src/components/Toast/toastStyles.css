@@ -1,0 +1,27 @@
+.Toastify__toast {
+  background-color: #f8f9fa;
+  color: #3a4b48;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.Toastify__toast-body {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 0.9rem;
+}
+.Toastify__toast--success {
+  background-color: #e0ffe0;
+}
+.Toastify__toast--error {
+  background-color: #dc2626;
+  color: white;
+}
+.Toastify__toast--error {
+  &.Toastify__progress-bar,
+  .Toastify__toast-icon {
+    background-color: #fecaca;
+  }
+}
+.Toastify__close-button {
+  color: white;
+  opacity: 0.7;
+}

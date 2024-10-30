@@ -53,3 +53,20 @@ export const fetchTransactions = async (
 
   return data;
 };
+
+
+export const searchTransaction = async (
+  page: number,
+  limit: number,
+  searchQuery = ""
+) => {
+  const response = await fetch(
+    `/api/transactions?page=${page}&limit=${limit}&search=${encodeURIComponent(
+      searchQuery
+    )}`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch transactions");
+  }
+  return response.json();
+};

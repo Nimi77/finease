@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const accessToken = useAuthStore((state) => state.accessToken);
 
   if (!accessToken) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
   return children;

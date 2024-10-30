@@ -11,9 +11,12 @@ export default {
         secondary: "#2A3B39",
         secondary2: "#51726C",
         active: "#425C5A",
+        loading: "#8EA19D",
       },
       colors: {
-        textG: "#2A3B39",
+        primaryText: "#2A3B39",
+        linkText: "#425C5A",
+        focusColor: "#3A4B48",
       },
     },
   },

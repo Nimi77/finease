@@ -20,9 +20,9 @@ export const RegisterSchema = Yup.object({
     .required("Password is required"),
   phone_number: Yup.string()
     .matches(/^[0-9]+$/, "Must be a number")
-    .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number must be at most 15 digits")
-    .required("Phone Number is required"),
+    .min(11, "Phone number is required")
+    .max(11, "Phone number must be 11 digits")
+    .required("Phone number is required"),
   date_of_birth: Yup.date()
     .required("Date of birth is required")
     .test(

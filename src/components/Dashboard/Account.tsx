@@ -1,9 +1,8 @@
 import { useUserProfile } from "../../store/userStore";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 const Account = () => {
-  const { data: user, isLoading, error } = useUserProfile();
+  const { data: user, isLoading, error } = useUserProfile()
 
   if (error) return <div>Error fetching user data</div>;
 
@@ -24,7 +23,7 @@ const Account = () => {
 
   return (
     <div className="account-page p-6 max-w-2xl mx-auto bg-white rounded-md shadow">
-      <h1 className="text-lg font-bold text-textG">Account Details</h1>
+      <h1 className="text-lg font-bold text-primaryText">Account Details</h1>
       <div className="account-info my-4 space-y-3 text-[0.92rem]">
         {renderAccountInfo("Account Number", user?.account?.account_number)}
         {renderAccountInfo(

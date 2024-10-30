@@ -1,10 +1,10 @@
+import { NumberFormatValues, NumericFormat } from "react-number-format";
+import { DepositValues, makeDeposit } from "../../api/deposit";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { DepositSchema } from "../../schema/Schema";
-import { DepositValues, makeDeposit } from "../../api/deposit";
 import { useMutation } from "react-query";
 import { ChangeEvent, useState } from "react";
 import { AxiosError } from "axios";
-import { NumberFormatValues, NumericFormat } from "react-number-format";
 
 const Deposit = () => {
   const [formError, setFormError] = useState<string | null>(null);
@@ -19,10 +19,9 @@ const Deposit = () => {
     },
   });
 
-  const handleDeposit = (
-    values: DepositValues,
-    { setSubmitting, resetForm }: any
-  ) => {
+  const handleDeposit = (values: DepositValues, formikHelpers: any) => {
+    const { setSubmitting, resetForm } = formikHelpers;
+
     setFormError(null);
     mutate(values, {
       onSettled: () => {
@@ -36,7 +35,7 @@ const Deposit = () => {
 
   return (
     <div className="deposit-c min-h-full max-w-2xl mx-auto p-6 bg-white rounded-md shadow">
-      <h3 className="text-textG text-lg font-semibold leading-9">
+      <h3 className="text-primaryText text-lg font-semibold leading-9">
         Deposit Funds, Unlock New Opportunities
       </h3>
 
@@ -75,7 +74,7 @@ const Deposit = () => {
                     setFieldValue("amount", values.floatValue ?? "")
                   }
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6 transition-all ease-in-out duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6 transition-all ease-in-out duration-200"
                   valueIsNumericString
                 />
                 <ErrorMessage
@@ -102,7 +101,7 @@ const Deposit = () => {
                     handleChange(e);
                   }}
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-800 text-sm leading-6 transition-all ease-in-out duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6 transition-all ease-in-out duration-200"
                 />
                 <ErrorMessage
                   name="narration"
@@ -128,7 +127,7 @@ const Deposit = () => {
               disabled={isSubmitting || isLoading}
               className={`flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-active transition-all ease-in-out duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                 isSubmitting || isLoading
-                  ? "bg-active cursor-not-allowed"
+                  ? "bg-loading cursor-not-allowed"
                   : "cursor-pointer"
               }`}
             >

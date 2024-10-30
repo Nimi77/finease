@@ -58,7 +58,7 @@ const TransactionSkeleton = () => {
         {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
-            className="transaction-card bg-white shadow-md p-4 rounded-md flex flex-col md:flex-row justify-between items-start animate-pulse"
+            className="transaction-card bg-white shadow-md p-4 rounded-md flex justify-between items-center animate-pulse"
           >
             <div className="transaction-info space-y-1">
               <div>

@@ -28,13 +28,25 @@ export const registerUser = async (user: UserCredentials): Promise<void> => {
     const response = await axiosInstance.post("api/v1/users", user);
     return response.data;
   } catch (error: any) {
-    if (
-      error.response?.data?.error ===
-      "Validation failed: Email has already been taken"
-    ) {
-      throw new Error("User already exists");
+    const errorMessage = error.response?.data?.error;
+
+    if (error.response) {
+      if (
+        errorMessage.includes("Validation failed: Email has already been taken")
+      ) {
+        throw new Error("The email address provided is already in use");
+      } else if (
+        errorMessage.includes("duplicate key value violates unique constraint")
+      ) {
+        throw new Error("The phone number provided is already in use.");
+      }
+    } else {
+      // Handle any other errors
+      throw new Error(
+        errorMessage || "An error occurred. Please try again later."
+      );
     }
-    throw new Error(error.response?.data?.error);
+    throw new Error("An unexpected error occurred. Please try again later.");
   }
 };
 
