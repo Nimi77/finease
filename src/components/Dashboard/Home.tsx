@@ -5,7 +5,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Transactions from "./Transaction/Transactions";
 import { useUserProfile } from "../../store/userStore";
-import Skeleton from "react-loading-skeleton";
 import { useState } from "react";
 
 const Home = () => {
@@ -24,7 +23,7 @@ const Home = () => {
   return (
     <div className="space-y-8">
       {/* first section */}
-      <div className="w-full h-40 bg-[#AC7E13] text-white p-4 flex flex-col justify-between rounded-md">
+      <div className="w-full h-40 bg-[#b38418] text-gray-50 p-4 flex flex-col justify-between rounded-md">
         <div className="heading flex justify-between items-center">
           <div className="flex justify-center">
             <div
@@ -33,11 +32,11 @@ const Home = () => {
             >
               <MdAccountBalanceWallet />
             </div>
-            <h2 className="font-semibold text-[0.92rem] ml-2">Total Balance</h2>
+            <h2 className="font-semibold text-msm ml-2">Total Balance</h2>
           </div>
           <button
             onClick={handleTransferClick}
-            className="text-sm bg-inherit outline-none flex justify-center items-center"
+            className="text-sm bg-inherit flex justify-center items-center"
           >
             Transaction History{" "}
             <span className="pt-1 pl-2">
@@ -47,11 +46,7 @@ const Home = () => {
         </div>
         <div className="flex items-center justify-between gap-10">
           {isLoading ? (
-            <Skeleton
-              width={80}
-              height={20}
-              className="animate-pulse bg-gray-50"
-            />
+            <div className="w-20 h-5 bg-gray-50 rounded animate-pulse"></div>
           ) : error ? (
             <span>****</span>
           ) : (
@@ -82,11 +77,9 @@ const Home = () => {
         </div>
       </div>
       {/* second section */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="bg-secondary2 flex flex-col items-left justify-center w-full md:h-[168px] text-white rounded-md border p-4 shadow">
-          <h2 className="text-[0.92rem] font-semibold">
-            Make your first deposit
-          </h2>
+      <div className="sec-two">
+        <div className="bg-secondary2 flex flex-col items-left justify-center w-full h-[168px] p-4 text-gray-50  rounded-md border shadow">
+          <h2 className="text-msm font-semibold">Make your first deposit</h2>
           <p className="pt-2 pb-5 text-sm leading-6">
             Making your first deposit is a crucial step toward unlocking world
             of opportunities.
@@ -106,10 +99,10 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="bg-secondary flex flex-col items-left justify-center w-full md:h-[168px] text-white rounded-md border p-4 shadow">
-          <h2 className="text-[0.92rem] font-semibold">Transfer</h2>
+        <div className="bg-secondary flex flex-col items-left justify-center w-full h-[168px] p-4  text-gray-50 rounded-md border shadow">
+          <h2 className="text-msm font-semibold">Transfer</h2>
           <p className="pt-2 pb-5 text-sm leading-6">
-            Seamlessly transfer funds to other accounts within our network and
+            Seamlessly transfer funds to other accounts within networks and
             enjoy secure transactions.
           </p>
           <button
@@ -127,8 +120,7 @@ const Home = () => {
         </div>
       </div>
       {/* third section */}
-      <div className="transactions">
-        <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
+      <div className="transactions rounded-md py-4 lg:border border-gray-200">
         <Transactions />
       </div>
     </div>

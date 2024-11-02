@@ -8,6 +8,7 @@ import { useMutation } from "react-query";
 import { AxiosError } from "axios";
 import FormInput from "./FormInput";
 import { RxDoubleArrowLeft } from "react-icons/rx";
+import { Loader2 } from "../Dashboard/Loader";
 
 interface LoginCredentials {
   email: string;
@@ -78,7 +79,7 @@ const LoginForm = () => {
                     label="Email"
                     name="email"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="Email address"
                     setFormError={setFormError}
                     handleChange={handleChange}
                     handleBlur={handleBlur}
@@ -87,7 +88,7 @@ const LoginForm = () => {
                     label="Password"
                     name="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Password"
                     setFormError={setFormError}
                     handleChange={handleChange}
                     handleBlur={handleBlur}
@@ -102,14 +103,14 @@ const LoginForm = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || isLoading}
-                  className={`flex w-full justify-center text-sm font-semibold leading-6 rounded-md px-3 py-1.5 mt-4 text-white shadow-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+                  className={`flex w-full items-center justify-center text-sm font-semibold leading-6 rounded-md px-3 h-10 mt-4 text-white shadow-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                     isSubmitting || isLoading
                       ? "bg-loading cursor-not-allowed"
                       : "bg-secondary cursor-pointer hover:bg-active"
                   }`}
                   aria-busy={isSubmitting || isLoading}
                 >
-                  {isSubmitting || isLoading ? "Logging in..." : "Login"}
+                  {isSubmitting || isLoading ? <Loader2 /> : "Login"}
                 </button>
               </Form>
             )}

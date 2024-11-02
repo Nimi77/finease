@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         NotoSans: ["Noto Sans JP", "sans-serif"],
       },
+      fontSize: {
+        msm: "0.92rem",
+      },
       backgroundColor: {
         primary: "#FAFEFE",
         secondary: "#2A3B39",

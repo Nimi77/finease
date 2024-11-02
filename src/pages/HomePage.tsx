@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../components/Dashboard/Loader";
+import { Loader1 } from "../components/Dashboard/Loader";
 
 const HomePage = () => {
   const [showLoader, setShowLoader] = useState(false);
@@ -17,7 +17,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       {showLoader ? (
-        <Loader/>
+        <Loader1 />
       ) : (
         <>
           <header className="text-center">
@@ -33,13 +33,13 @@ const HomePage = () => {
           <div className="flex space-x-6 mt-12 mb-8">
             <button
               onClick={() => handleNavigation("/login")}
-              className="px-8 py-2 text-white font-semibold text-[0.94rem] bg-secondary rounded hover:bg-active transition-transform transform ease-in-out hover:scale-105 duration-300 shadow"
+              className="px-8 py-2 text-white font-semibold text-msm bg-secondary rounded hover:bg-active transition-transform transform ease-in-out hover:scale-105 duration-300 shadow"
             >
               Login
             </button>
             <button
               onClick={() => handleNavigation("/register")}
-              className="px-6 py-2 text-white font-semibold text-[0.92rem] bg-active rounded hover:bg-active transition-transform ease-in-out transform hover:scale-105 duration-300 shadow"
+              className="px-6 py-2 text-white font-semibold text-msm bg-active rounded hover:bg-active transition-transform ease-in-out transform hover:scale-105 duration-300 shadow"
             >
               Register
             </button>

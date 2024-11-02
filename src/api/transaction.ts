@@ -7,6 +7,7 @@ interface Recipient {
 }
 
 export interface Transaction {
+  id: string;
   amount: number;
   balance_after: number;
   balance_before: number;

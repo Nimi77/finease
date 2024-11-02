@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import TransactionPage from "./components/Dashboard/Transaction/TransactionH";
+import TransactionHistory from "./components/Dashboard/Transaction/TransactionH";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import Deposit from "./components/Dashboard/Deposit";
 import Transfer from "./components/Dashboard/Transfer";
@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="transfer" element={<Transfer />} />
-          <Route path="transactions" element={<TransactionPage />} />
+          <Route path="transactions" element={<TransactionHistory />} />
           <Route path="account" element={<Account />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

@@ -117,7 +117,7 @@ const RegisterForm = () => {
                     label="Email"
                     name="email"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="Email address"
                     setFormError={setFormError}
                     setSuccessMss={setSuccessMss}
                     handleChange={handleChange}
@@ -127,7 +127,7 @@ const RegisterForm = () => {
                     label="Password"
                     name="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Password"
                     setFormError={setFormError}
                     setSuccessMss={setSuccessMss}
                     handleChange={handleChange}
@@ -185,7 +185,7 @@ const RegisterForm = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || isLoading}
-                  className={`flex w-full justify-center font-semibold leading-6 text-sm text-white px-3 py-1.5 mt-4 rounded-md shadow-sm transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+                  className={`flex w-full items-center justify-center font-semibold leading-6 text-sm text-white h-10 px-3 mt-4 rounded-md shadow-sm transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                     isSubmitting || isLoading
                       ? "bg-loading cursor-not-allowed"
                       : "bg-secondary cursor-pointer hover:bg-active"

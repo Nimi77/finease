@@ -129,9 +129,9 @@ const Transfer = () => {
   };
 
   return (
-    <div className="transfer max-w-2xl mx-auto p-6 bg-white rounded-md shadow">
+    <div className="transfer max-w-2xl my-4 mx-auto p-6 bg-[#f9fcff] rounded shadow-lg">
       <ToastContainer />
-      <h3 className="text-primaryText font-semibold text-lg leading-9">
+      <h3 className="text-primaryText font-semibold text-base leading-9">
         Transfer Funds Instantly and Securely
       </h3>
 
@@ -155,7 +155,7 @@ const Transfer = () => {
             <div className="transaction-details space-y-4 my-6">
               {/* Account Field */}
               <div className="acct-number-field">
-                <label className="block text-sm font-medium leading-6 text-gray-900">
+                <label className="block text-sm font-medium leading-6 text-gray-800">
                   Recipient Account
                 </label>
                 <div className="mt-2">
@@ -179,7 +179,7 @@ const Transfer = () => {
               {/* Bank name */}
               {bankName && (
                 <div className="bank-name-field">
-                  <label className="block text-sm font-medium text-gray-900">
+                  <label className="block text-sm font-medium text-gray-800">
                     Bank Name
                   </label>
                   <input
@@ -194,7 +194,7 @@ const Transfer = () => {
               {/* Account name */}
               {accountName && (
                 <div className="acct-name-field">
-                  <label className="block text-sm font-medium text-gray-900">
+                  <label className="block text-sm font-medium text-gray-800">
                     Account Name
                   </label>
                   <input
@@ -209,7 +209,7 @@ const Transfer = () => {
               {/* Wallet */}
               {isAccountValid && accountBalance !== null && (
                 <div className="account-balance-field">
-                  <label className="block text-sm font-medium text-gray-900">
+                  <label className="block text-sm font-medium text-gray-800">
                     Wallet
                   </label>
                   <input
@@ -231,7 +231,7 @@ const Transfer = () => {
               {isAccountValid && (
                 <div className="space-y-4">
                   <div className="amount-field space-y-2">
-                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                    <label className="block text-sm font-medium leading-6 text-gray-800">
                       Amount
                     </label>
                     <div>
@@ -260,7 +260,7 @@ const Transfer = () => {
                   </div>
 
                   <div className="narration space-y-2">
-                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                    <label className="block text-sm font-medium leading-6 text-gray-800">
                       Narration
                     </label>
                     <div>

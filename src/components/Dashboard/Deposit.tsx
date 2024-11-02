@@ -34,10 +34,10 @@ const Deposit = () => {
   };
 
   return (
-    <div className="deposit-c min-h-full max-w-2xl mx-auto p-6 bg-white rounded-md shadow">
-      <h3 className="text-primaryText text-lg font-semibold leading-9">
+    <div className="deposit-c min-h-full max-w-2xl mx-auto p-6 bg-[#f9fcff] rounded shadow-lg">
+      <h2 className="text-primaryText text-base font-semibold leading-9">
         Deposit Funds, Unlock New Opportunities
-      </h3>
+      </h2>
 
       <Formik
         initialValues={{
@@ -57,7 +57,7 @@ const Deposit = () => {
           <Form className="deposit-form mt-6">
             {/* Amount Field */}
             <div>
-              <label className="block text-sm font-medium leading-6 text-gray-900">
+              <label className="block text-sm font-medium leading-6 text-gray-800">
                 Amount
               </label>
               <div className="mt-2">
@@ -74,7 +74,7 @@ const Deposit = () => {
                     setFieldValue("amount", values.floatValue ?? "")
                   }
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6 transition-all ease-in-out duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 bg-transparent text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor transition-all ease-linear duration-200"
                   valueIsNumericString
                 />
                 <ErrorMessage
@@ -87,7 +87,7 @@ const Deposit = () => {
 
             {/* Narration Field */}
             <div className="mt-4 mb-6">
-              <label className="block text-sm font-medium leading-6 text-gray-900">
+              <label className="block text-sm font-medium leading-6 text-gray-800">
                 Narration
               </label>
               <div className="mt-2">
@@ -101,7 +101,7 @@ const Deposit = () => {
                     handleChange(e);
                   }}
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6 transition-all ease-in-out duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 bg-transparent text-sm text-gray-900 shadow-sm ring-1 focus:ring-2 focus:ring-inset focus:ring-focusColor leading-6 transition-all ease-linear duration-200"
                 />
                 <ErrorMessage
                   name="narration"
@@ -125,10 +125,10 @@ const Deposit = () => {
             <button
               type="submit"
               disabled={isSubmitting || isLoading}
-              className={`flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-active transition-all ease-in-out duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-active transition-all ease-in-out duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
                 isSubmitting || isLoading
                   ? "bg-loading cursor-not-allowed"
-                  : "cursor-pointer"
+                  : "bg-secondary cursor-pointer"
               }`}
             >
               {isSubmitting || isLoading ? "Processing..." : "Deposit"}

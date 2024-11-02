@@ -1,7 +1,6 @@
-
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
 import { fetchTransactions, Transaction } from "../../../api/transaction";
-import TransactionSkeleton from "../Skeleton/TransactionS";
+import TransactionSkeleton from "./TransactionSl";
 import { useQuery } from "react-query";
 import { useState } from "react";
 
@@ -35,51 +34,87 @@ const Transactions = () => {
   };
 
   if (isLoading) return <TransactionSkeleton />;
-  if (error) return <div className="text-sm">Error fetching transactions</div>;
+  if (error) return <div className="text-msm">Error fetching transactions</div>;
 
   return (
     <>
+      <div className="heading flex justify-between lg:px-4">
+        <h3 className="font-semibold mb-4 text-primaryText">
+          Recent Transactions
+        </h3>
+        {/* Pagination */}
+        <div className="pagination flex justify-center items-center space-x-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-1 bg-secondary text-white rounded-full disabled:opacity-50"
+          >
+            <RxDoubleArrowLeft />
+          </button>
+          <span className="text-gray-700 font-semibold text-sm">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-1 bg-secondary text-white rounded-full disabled:opacity-50"
+          >
+            <RxDoubleArrowRight />
+          </button>
+        </div>
+      </div>
       {transactions.length === 0 ? (
         <p className="text-sm">No transactions found.</p>
       ) : (
         <>
           {/* Table layout for large screens and above */}
-          <div className="hidden lg:block overflow-x-auto">
+          <div className="hidden lg:block overflow-x-auto mt-4">
             <table className="w-full table-auto border-collapse">
               <thead>
-                <tr className="bg-[#F7F7F7] border-b text-sm">
-                  <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                <tr className="bg-[#F7F7F7] border-y text-sm">
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">
                     Narration
                   </th>
-                  <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                  <th className="px-4 py-3 text-left font-semibold text-gray-600">
                     Reference
                   </th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
                     Date
                   </th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
                     Status
                   </th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
-                    Amount (NGN)
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                    Amount
                   </th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
                     Recipient
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {transactions.map((transaction: Transaction) => (
-                  <tr key={transaction.reference} className="border-b">
+                  <tr key={transaction.id} className="border-t">
                     <td className="px-4 py-2 lg:py-4 text-sm text-gray-700">
-                      {transaction.narration}
+                      {transaction.recipient.account_name}
                     </td>
                     <td className="px-4 py-2 lg:py-4 text-sm text-gray-700">
-                      {transaction.reference}
+                      {transaction.transaction_type}
                     </td>
                     <td className="px-4 py-2 lg:py-4 text-sm text-gray-500">
-                      {new Date(transaction.created_at).toLocaleDateString()}
+                      {new Date(transaction.created_at).toLocaleString(
+                        "en-US",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        }
+                      )}
                     </td>
+
                     <td className="px-4 py-2 text-sm">
                       <span
                         className={`font-medium text-sm ${
@@ -108,7 +143,7 @@ const Transactions = () => {
           </div>
 
           {/* Card layout for medium screens and below */}
-          <div className="lg:hidden space-y-4">
+          <div className="lg:hidden space-y-4 mt-4">
             {transactions.map((transaction: Transaction) => (
               <div
                 key={transaction.reference}
@@ -116,7 +151,7 @@ const Transactions = () => {
               >
                 <div className="transaction-info space-y-1">
                   <div>
-                    <span className="medium text-gray-800 text-[0.92rem]">
+                    <span className="medium text-gray-800 text-msm">
                       {transaction.narration}
                     </span>
                     <span className="text-sm text-gray-500 ml-2">
@@ -140,7 +175,17 @@ const Transactions = () => {
                   <div>
                     <span className="text-sm text-gray-500">
                       Date:{" "}
-                      {new Date(transaction.created_at).toLocaleDateString()}
+                      {new Date(transaction.created_at).toLocaleString(
+                        "en-US",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        }
+                      )}
                     </span>
                   </div>
                   <div className="text-sm text-gray-500">
@@ -157,7 +202,7 @@ const Transactions = () => {
                 </div>
 
                 <div className="transaction-amount text-right flex flex-col space-y-1">
-                  <span className="font-semibold text-gray-800">
+                  <span className="text-msm font-semibold text-gray-800">
                     {" "}
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
@@ -165,14 +210,6 @@ const Transactions = () => {
                     }).format(transaction.amount ?? 0)}
                   </span>
                   <span className="text-sm text-gray-500">
-                    Balance Before:{" "}
-                    {new Intl.NumberFormat("en-NG", {
-                      style: "currency",
-                      currency: "NGN",
-                    }).format(transaction.balance_before ?? 0)}{" "}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    Balance After:{" "}
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
                       currency: "NGN",
@@ -184,27 +221,6 @@ const Transactions = () => {
           </div>
         </>
       )}
-
-      {/* Pagination */}
-      <div className="pagination mt-6 flex justify-center items-center space-x-4">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-secondary text-white rounded-md disabled:opacity-50"
-        >
-          <RxDoubleArrowLeft />
-        </button>
-        <span className="text-gray-700 font-semibold text-sm">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-secondary text-white rounded-md disabled:opacity-50"
-        >
-          <RxDoubleArrowRight />
-        </button>
-      </div>
     </>
   );
 };
