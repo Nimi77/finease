@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        NotoSans: ["Noto Sans JP", "sans-serif"],
+        NotoSans: ["Jost", "sans-serif"],
       },
       fontSize: {
         msm: "0.92rem",
       },
       backgroundColor: {
-        primary: "#FAFEFE",
+        primary: "#FBFBFB",
         secondary: "#2A3B39",
         secondary2: "#51726C",
         active: "#425C5A",

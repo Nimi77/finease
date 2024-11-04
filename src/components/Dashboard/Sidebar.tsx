@@ -2,10 +2,9 @@ import { BiHome, BiTransferAlt } from "react-icons/bi";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
-import { GrCss3 } from "react-icons/gr";
 import { FiX } from "react-icons/fi";
 import { useUserProfile } from "../../store/userStore";
-import Skeleton from "react-loading-skeleton";
+import { motion } from "framer-motion";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,20 +20,20 @@ interface NavItemProps {
 }
 
 const LinkItems = [
-  { label: "Home", icon: <BiHome size={19} />, href: "/dashboard" },
+  { label: "Home", icon: <BiHome size={20} />, href: "/dashboard" },
   {
     label: "Transactions",
-    icon: <BiTransferAlt size={19} />,
+    icon: <BiTransferAlt size={20} />,
     href: "/dashboard/transactions",
   },
   {
     label: "Account",
-    icon: <RiAccountCircleLine size={19} />,
+    icon: <RiAccountCircleLine size={20} />,
     href: "/dashboard/account",
   },
   {
     label: "Settings",
-    icon: <CiSettings size={19} />,
+    icon: <CiSettings size={20} />,
     href: "/dashboard/settings",
   },
 ];
@@ -48,46 +47,33 @@ const NavItem: React.FC<NavItemProps> = ({
   <li>
     <Link to={href}>
       <div
-        className={`flex items-center justify-start py-2  rounded transition-all duration-300
-          
-        hover:bg-active`}
+        className={`flex items-center justify-start py-3 px-2 rounded-md text-white hover:bg-active transition-all duration-300
+          ${isActive ? "bg-active" : "bg-transparent"}
+        `}
       >
-        <div
-          className={`mr-3 rounded-full p-2 ${
-            isActive
-              ? "text-[#f0b221] bg-active"
-              : "text-[#af924f] bg-transparent"
-          }`}
-        >
-          {icon}
-        </div>
-        <span className={`${isActive ? "text-gray-50" : "text-gray-200"}`}>
-          {children}
-        </span>
+        <div className="text-[#f0b221] mr-3">{icon}</div>
+        <span>{children}</span>
       </div>
     </Link>
   </li>
 );
 
-const Sidebar: React.FC<SidebarProps> = ({ className, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ className, isOpen, onClose }) => {
   const { data: user, isLoading } = useUserProfile();
   const location = useLocation();
 
   return (
-    <aside
-      className={`sidebar bg-secondary text-white w-60 h-full fixed top-0 left-0 z-40 py-8 px-6 transiton ease-in-out duration-300 ${className}`}
+    <motion.aside
+      initial={{ x: "-100%" }}
+      animate={{ x: isOpen ? "0%" : "0%" }}
+      transition={{ type: "tween", duration: 0.5 }}
+      className={`sidebar bg-secondary w-60 h-full fixed top-0 left-0 pt-6 pb-8 px-6 transiton ease-in-out duration-300 ${className}`}
       role="navigation"
       aria-label="Sidebar navigation"
     >
       <div className="min-h-full flex flex-col">
         <div className="flex items-center justify-between px-1">
-          <div
-            className="brand-name flex items-center gap-3"
-            aria-label="Brand name"
-          >
-            <span className="brand-logo">
-              <GrCss3 size={21} />
-            </span>
+          <div className="brand-name text-white" aria-label="Brand name">
             <span className="text-2xl font-semibold leading-8">Finease</span>
           </div>
           <button
@@ -98,8 +84,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose }) => {
             <FiX size={22} color="white" />
           </button>
         </div>
-        <nav className="sidebar-nav flex-1 my-6" aria-label="Main navigation">
-          <ul className="space-y-2 overflow-hidden text-sm">
+        <nav className="sidebar-nav flex-1 my-9" aria-label="Main navigation">
+          <ul className="space-y-2 overflow-hidden ">
             {LinkItems.map((link) => (
               <NavItem
                 key={link.label}
@@ -113,28 +99,32 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose }) => {
           </ul>
         </nav>
         <div className="flex-shrink-0 mt-auto">
-          <div className="flex items-start justify-center gap-2">
-            {isLoading ? (
-              <Skeleton circle={true} height={66} width={66} />
-            ) : (
-              user?.avatar && (
-                <img
-                  src={user.avatar}
-                  alt="user's avatar"
-                  className="w-10 h-10 rounded-full shadow-md border border-opacity-5"
-                />
-              )
-            )}
-            <div className="flex flex-col justify-center items-start">
-              <span className="account-name font-medium text-gray-50 text-sm">
-                {user?.first_name} {user?.last_name}
-              </span>
-              <span className="text-xs text-gray-200">{user?.email}</span>
+          {isLoading ? (
+            <div className="flex items-center justify-start gap-2">
+              <div className="bg-gray-50 rounded-full w-16 h-16 animate-pulse"></div>
+              <div className="flex flex-col justify-center items-start gap-2">
+                <span className="bg-gray-50 animate-pulse rounded w-24 h-3"></span>
+                <span className="bg-gray-50 animate-pulse rounded w-20 h-2"></span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center justify-start gap-2">
+              <img
+                src={user?.avatar}
+                alt="user's avatar"
+                className="w-10 h-10 rounded-full shadow-md border border-[#f0b221]"
+              />
+              <div className="flex flex-col justify-center items-start">
+                <span className="account-name font-medium text-gray-100">
+                  {user?.first_name} {user?.last_name}
+                </span>
+                <span className="text-sm text-gray-300">{user?.email}</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    </aside>
+    </motion.aside>
   );
 };
 

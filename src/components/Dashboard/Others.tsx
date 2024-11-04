@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { FiX } from "react-icons/fi";
 import { useRef, useState } from "react";
-import { IoArrowDown } from "react-icons/io5";
 import { useUnreadCountStore } from "../../store/unreadCountStore";
 
 export default function Others() {
@@ -32,8 +31,8 @@ export default function Others() {
           !previousTransactions.some((prev) => prev.id === transaction.id)
       );
       if (newTransactions.length > 0) {
-        setUnreadCount(newTransactions.length);
-        setPreviousTransactions(newData.transactions);
+        setUnreadCount(unreadCount + newTransactions.length);
+        setPreviousTransactions((prev) => [...newTransactions, ...prev]);
       }
     },
   });
@@ -104,12 +103,12 @@ export default function Others() {
         <div
           ref={dropdownRef}
           id="notification-box"
-          className="notifcation-info-card absolute top-full mt-2 right-6 w-max py-4 bg-gray-50 rounded-md border shadow-lg"
+          className="notifcation-info-card absolute top-full mt-2 right-5 w-max p-4 bg-white rounded-md border shadow-lg"
           aria-labelledby="notification-menu-btn"
           aria-live="polite"
         >
-          <div className="notification-heading px-4 flex justify-between items-center">
-            <h4 className="text-msm">Alert</h4>
+          <div className="notification-heading flex justify-between items-center">
+            <h4>Alert</h4>
             <button
               onClick={() => setIsNoticationOpen(false)}
               className="border p-1"
@@ -126,50 +125,39 @@ export default function Others() {
                 transactionsToShow.map((transaction) => (
                   <li
                     key={transaction.id}
-                    className="flex items-center justify-between gap-10 px-4 py-1 border-t first:border-0"
+                    className="flex flex-col items-start justify-center py-1 border-t first:border-0"
                   >
-                    <div className="flex items-center justify-center space-x-3">
-                      <div className="bg-gray-100 border rounded-full p-2">
-                        <IoArrowDown className="text-primary" size={18} />
-                      </div>
-                      <div className="flex flex-col items-left justify-center">
-                        <span className="text-sm font-medium text-gray-800">
-                          {transaction.recipient.account_name}
-                        </span>
-                        <p className="text-gray-500 text-xs">
-                          {new Date(transaction.created_at).toLocaleDateString(
-                            "en-US",
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit",
-                              hour12: true,
-                            }
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-end justify-center">
-                      <span className="amount-received text-green-600 text-sm font-medium">
-                        +{" "}
-                        {new Intl.NumberFormat("en-NG", {
-                          style: "currency",
-                          currency: "NGN",
-                        }).format(transaction.amount ?? 0)}
-                      </span>
-                      <span className="px-1 bg-gray-100 text-gray-600 text-xs rounded">
-                        {new Intl.NumberFormat("en-NG", {
-                          style: "currency",
-                          currency: "NGN",
-                        }).format(transaction.balance_after ?? 0)}{" "}
-                      </span>
-                    </div>
+                    <p className="text-gray-500 text-xs">
+                      {new Date(transaction.created_at).toLocaleDateString(
+                        "en-NG",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        }
+                      )}
+                    </p>
+                    <span className="text-sm font-medium text-gray-800">
+                      You just{" "}
+                      {transaction.transaction_type === "deposit"
+                        ? " received "
+                        : " sent "}
+                      {new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      }).format(transaction.amount ?? 0)}
+                      {transaction.transaction_type === "deposit"
+                        ? " from "
+                        : " to "}
+                      {transaction.recipient.account_name}
+                    </span>
                   </li>
                 ))
               ) : (
-                <p className="text-sm py-1 px-4">
+                <p className="text-sm py-1">
                   Alert about your transactions will show here.
                 </p>
               )}
@@ -177,7 +165,7 @@ export default function Others() {
             {previousTransactions.length > 3 && (
               <button
                 onClick={toggleShowAll}
-                className="mt-2 px-4 py-1 text-sm text-gray-800 underline"
+                className="mt-2 py-1 text-sm text-gray-800 underline"
                 aria-label={
                   showAll ? "Show less transactions" : "Show more transactions"
                 }
@@ -205,23 +193,23 @@ export default function Others() {
         <div
           ref={dropdownRef}
           id="others-box"
-          className="absolute top-full py-2 right-5 w-40 bg-gray-50 border rounded-md shadow-lg"
+          className="absolute top-full py-2 right-5 w-40 bg-white border rounded-md shadow-lg"
           aria-labelledby="other-info"
           aria-live="polite"
         >
-          <ul className="text-sm text-gray-600 hover:text-gray-700 space-y-4">
-            <li className="px-6 hover:text-gray-700">
+          <ul className="text-sm text-gray-800 space-y-4">
+            <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard/account">Profile</Link>
             </li>
-            <li className="px-6">
+            <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard/account">Account</Link>
             </li>
-            <li className="px-6">
+            <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard">Settings</Link>
             </li>
             <li
               onClick={handleLogOut}
-              className="px-6 border-t py-2 cursor-pointer"
+              className="px-6 border-t py-2 cursor-pointer hover:text-gray-600"
             >
               LogOut
             </li>

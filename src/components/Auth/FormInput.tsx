@@ -24,14 +24,11 @@ const FormInput: React.FC<FormInputProps> = ({
   handleBlur,
   className = "",
 }) => (
-  <div className={`input-box h-auto md:h-[80px] ${className}`}>
-    <label
-      htmlFor={name}
-      className="block text-sm font-medium leading-6 text-gray-900"
-    >
+  <div className={`input-box space-y-2 h-auto md:h-[80px] ${className}`}>
+    <label htmlFor={name} className="block text-msm font-medium text-gray-900">
       {label}
     </label>
-    <div className="mt-2">
+    <div>
       <Field
         id={name}
         name={name}
@@ -44,11 +41,11 @@ const FormInput: React.FC<FormInputProps> = ({
         }}
         onBlur={handleBlur}
         aria-required="true"
-        className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset bg-[#fdfdfdab] ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-focusColor"
+        className="block w-full rounded-md border-0 py-2 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset bg-[#fdfdfdab] ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-focusColor"
       />
       <ErrorMessage
         name={name}
-        component="div"
+        component="span"
         className="text-red-500 text-sm"
       />
     </div>

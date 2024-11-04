@@ -3,6 +3,7 @@ import { fetchTransactions, Transaction } from "../../../api/transaction";
 import TransactionSkeleton from "./TransactionSl";
 import { useQuery } from "react-query";
 import { useState } from "react";
+import { IoArrowDown, IoArrowUp } from "react-icons/io5";
 
 const Transactions = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,12 +35,12 @@ const Transactions = () => {
   };
 
   if (isLoading) return <TransactionSkeleton />;
-  if (error) return <div className="text-msm">Error fetching transactions</div>;
+  if (error) return <div>Error fetching transactions</div>;
 
   return (
     <>
-      <div className="heading flex justify-between lg:px-4">
-        <h3 className="font-semibold mb-4 text-primaryText">
+      <div className="heading flex justify-between">
+        <h3 className="font-medium text-base mb-4 text-primaryText">
           Recent Transactions
         </h3>
         {/* Pagination */}
@@ -68,42 +69,31 @@ const Transactions = () => {
       ) : (
         <>
           {/* Table layout for large screens and above */}
-          <div className="hidden lg:block overflow-x-auto mt-4">
-            <table className="w-full table-auto border-collapse">
+          <div className="hidden lg:block overflow-x-auto mt-4 rounded-md">
+            <table className="w-full table-auto border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-[#F7F7F7] border-y text-sm">
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">
+                <tr className="bg-[#F7F7F7] border-y text-msm">
+                  <th className="px-4 py-3 text-left  text-gray-500">Name</th>
+                  <th className="px-4 py-3 text-left text-gray-500">Date</th>
+                  <th className="px-4 py-3 text-left text-gray-500">
+                    Reference Id
+                  </th>
+                  <th className="px-4 py-3 text-left text-gray-500">Amount</th>
+                  <th className="px-4 py-3 text-left text-gray-500">Status</th>
+                  <th className="px-4 py-3 text-left text-gray-500">
                     Narration
-                  </th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-600">
-                    Reference
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                    Date
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                    Status
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                    Amount
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-                    Recipient
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {transactions.map((transaction: Transaction) => (
                   <tr key={transaction.id} className="border-t">
-                    <td className="px-4 py-2 lg:py-4 text-sm text-gray-700">
+                    <td className="px-4 py-2 lg:py-4 text-sm text-gray-800">
                       {transaction.recipient.account_name}
                     </td>
-                    <td className="px-4 py-2 lg:py-4 text-sm text-gray-700">
-                      {transaction.transaction_type}
-                    </td>
-                    <td className="px-4 py-2 lg:py-4 text-sm text-gray-500">
+                    <td className="px-4 py-2 lg:py-4 text-sm text-gray-800">
                       {new Date(transaction.created_at).toLocaleString(
-                        "en-US",
+                        "en-NG",
                         {
                           day: "2-digit",
                           month: "short",
@@ -114,27 +104,30 @@ const Transactions = () => {
                         }
                       )}
                     </td>
-
-                    <td className="px-4 py-2 text-sm">
-                      <span
-                        className={`font-medium text-sm ${
-                          transaction.status === "completed"
-                            ? "text-green-600"
-                            : "text-red-500"
-                        }`}
-                      >
-                        {transaction.status}
-                      </span>
+                    <td className="px-4 py-2 lg:py-4 text-sm text-gray-800">
+                      {transaction.reference}
                     </td>
-                    <td className="px-4 py-2 text-sm text-gray-700">
+                    <td className="px-4 py-2 text-sm text-gray-800">
                       {new Intl.NumberFormat("en-NG", {
                         style: "currency",
                         currency: "NGN",
                       }).format(transaction.amount ?? 0)}
                     </td>
-                    <td className="px-4 py-2 text-sm text-gray-700">
-                      {transaction.recipient.account_name} at{" "}
-                      {transaction.recipient.bank_name}
+                    <td className="px-4 py-2 text-sm">
+                      <span
+                        className={`font-medium text-sm px-2 py-0.5 rounded-md ${
+                          transaction.transaction_type === "deposit"
+                            ? "text-green-600 bg-[#ccffd09c]"
+                            : "text-red-600 bg-[#ffc8cd9c]"
+                        }`}
+                      >
+                        {transaction.transaction_type === "deposit"
+                          ? " Received "
+                          : " Sent "}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-800">
+                      {transaction.narration}
                     </td>
                   </tr>
                 ))}
@@ -146,64 +139,49 @@ const Transactions = () => {
           <div className="lg:hidden space-y-4 mt-4">
             {transactions.map((transaction: Transaction) => (
               <div
-                key={transaction.reference}
-                className="transaction-card bg-white shadow-md p-4 rounded-md flex justify-between items-center"
+                key={transaction.id}
+                className="transaction-card bg-white shadow p-4 rounded-md flex justify-between items-center"
               >
-                <div className="transaction-info space-y-1">
-                  <div>
-                    <span className="medium text-gray-800 text-msm">
-                      {transaction.narration}
-                    </span>
-                    <span className="text-sm text-gray-500 ml-2">
-                      ({transaction.reference})
-                    </span>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="bg-gray-100 text-green-800 rounded-full p-2">
+                    {transaction.transaction_type === "deposit" ? (
+                      <IoArrowDown size={18} />
+                    ) : (
+                      <IoArrowUp size={18} />
+                    )}
                   </div>
-
-                  <div>
-                    <span className="text-sm text-gray-500">Status: </span>
-                    <span
-                      className={`font-medium text-sm ${
-                        transaction.status === "completed"
-                          ? "text-green-600"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {transaction.status}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-sm text-gray-500">
-                      Date:{" "}
-                      {new Date(transaction.created_at).toLocaleString(
-                        "en-US",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: true,
-                        }
-                      )}
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    <span>
-                      {transaction.transaction_type === "deposit"
-                        ? "From: "
-                        : "To: "}
-                    </span>
-                    <span className="font-medium">
-                      {transaction.recipient.account_name}
-                    </span>
-                    <span> at {transaction.recipient.bank_name}</span>
+                  <div className="transaction-info space-y-1">
+                    <div className="text-sm font-medium text-gray-800">
+                      <span>
+                        {" "}
+                        Transfer
+                        {transaction.transaction_type === "deposit"
+                          ? " From "
+                          : " To "}
+                      </span>
+                      <span>{transaction.recipient.account_name}</span>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-500">
+                        {new Date(transaction.created_at).toLocaleString(
+                          "en-NG",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit",
+                            hour12: true,
+                          }
+                        )}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="transaction-amount text-right flex flex-col space-y-1">
-                  <span className="text-msm font-semibold text-gray-800">
-                    {" "}
+                <div className="transaction-amount text-sm text-right flex flex-col space-y-1">
+                  <span className="font-medium text-gray-800">
+                    {transaction.transaction_type === "deposit" ? " + " : " - "}
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
                       currency: "NGN",

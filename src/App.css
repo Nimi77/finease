@@ -70,5 +70,6 @@
 @media (max-width: 900px) {
   .sec-two {
     flex-direction: column;
+    gap:1.5rem;
   }
 }

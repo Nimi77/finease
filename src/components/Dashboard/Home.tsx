@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="md:space-y-8 space-y-6">
       {/* first section */}
       <div className="w-full h-40 bg-[#b38418] text-gray-50 p-4 flex flex-col justify-between rounded-md">
         <div className="heading flex justify-between items-center">
@@ -32,10 +32,10 @@ const Home = () => {
             >
               <MdAccountBalanceWallet />
             </div>
-            <h2 className="font-semibold text-msm ml-2">Total Balance</h2>
+            <h2 className="font-medium text-base ml-2">Total Balance</h2>
           </div>
           <button
-            onClick={handleTransferClick}
+            onClick={() => navigate("/dashboard/transactions")}
             className="text-sm bg-inherit flex justify-center items-center"
           >
             Transaction History{" "}
@@ -78,11 +78,11 @@ const Home = () => {
       </div>
       {/* second section */}
       <div className="sec-two">
-        <div className="bg-secondary2 flex flex-col items-left justify-center w-full h-[168px] p-4 text-gray-50  rounded-md border shadow">
-          <h2 className="text-msm font-semibold">Make your first deposit</h2>
+        <div className="bg-secondary2 flex flex-col items-left justify-center w-full min-h-[180px] h-[168px] p-4 text-gray-50 rounded-md border shadow">
+          <h2 className="font-medium">Add Money</h2>
           <p className="pt-2 pb-5 text-sm leading-6">
-            Making your first deposit is a crucial step toward unlocking world
-            of opportunities.
+            Making a deposit is a crucial step toward unlocking world of
+            opportunities, take the bold step.
           </p>
           <button
             onClick={handleDepositClick}
@@ -99,8 +99,8 @@ const Home = () => {
           </button>
         </div>
 
-        <div className="bg-secondary flex flex-col items-left justify-center w-full h-[168px] p-4  text-gray-50 rounded-md border shadow">
-          <h2 className="text-msm font-semibold">Transfer</h2>
+        <div className="bg-secondary flex flex-col items-left justify-center w-full min-h-[180px] h-[168px] p-4  text-gray-50 rounded-md border shadow">
+          <h2 className="font-medium">Send Funds</h2>
           <p className="pt-2 pb-5 text-sm leading-6">
             Seamlessly transfer funds to other accounts within networks and
             enjoy secure transactions.
@@ -120,7 +120,7 @@ const Home = () => {
         </div>
       </div>
       {/* third section */}
-      <div className="transactions rounded-md py-4 lg:border border-gray-200">
+      <div className="transactions py-4">
         <Transactions />
       </div>
     </div>

@@ -64,7 +64,7 @@ const RegisterForm = () => {
         className="flex justify-center pt-20 pb-8"
         aria-labelledby="register-heading"
       >
-        <div className="w-full max-w-md" aria-live="polite">
+        <div className="w-full max-w-sm" aria-live="polite">
           <div className="text-center">
             <h1
               id="register-heading"
@@ -87,7 +87,7 @@ const RegisterForm = () => {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting, handleChange, handleBlur }) => (
-              <Form className="registraton-form mt-10 mb-2">
+              <Form className="registraton-form mt-10 mb-3">
                 <div className="user-details md:space-y-2 space-y-4">
                   <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                     <FormInput
@@ -169,16 +169,16 @@ const RegisterForm = () => {
                   />
                 </div>
                 {/* success and error message */}
-                <div aria-live="assertive" className="text-center mt-2">
+                <div aria-live="assertive" className="text-left mt-2">
                   {isError && formError && (
-                    <p className="text-sm bg-red-600 text-white py-1 px-4 w-max rounded">
+                    <span className="text-sm bg-red-600 text-white py-1 px-4 w-max rounded">
                       {formError}
-                    </p>
+                    </span>
                   )}
                   {isSuccess && successMss && (
-                    <p className="text-sm text-green-800 bg-[#B3FFB99C] py-1 px-4 w-max rounded">
+                    <span className="text-sm text-green-800 bg-[#B3FFB99C] py-1 px-4 w-max rounded">
                       {successMss}
-                    </p>
+                    </span>
                   )}
                 </div>
                 {/* registraton button */}
@@ -199,7 +199,7 @@ const RegisterForm = () => {
             )}
           </Formik>
           <div className="text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-msm text-gray-600">
               Already have an account?{" "}
               <Link
                 to="/login"

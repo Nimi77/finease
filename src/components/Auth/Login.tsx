@@ -56,7 +56,7 @@ const LoginForm = () => {
         </button>
       </Link>
       <main className="flex justify-center" aria-labelledby="login-heading">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm" aria-live="polite">
           <h1
             id="login-heading"
             className="text-center text-primaryText text-2xl font-bold leading-9 tracking-tight"
@@ -73,8 +73,8 @@ const LoginForm = () => {
             onSubmit={handleLogin}
           >
             {({ isSubmitting, handleChange, handleBlur }) => (
-              <Form className="login-form mt-10 mb-2">
-                <div className="user-detials space-y-2">
+              <Form className="login-form mt-10 mb-3">
+                <div className="user-detials space-y-4">
                   <FormInput
                     label="Email"
                     name="email"
@@ -116,11 +116,11 @@ const LoginForm = () => {
             )}
           </Formik>
 
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-msm text-gray-600">
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
-              className="font-semibold leading-6 text-primaryText hover:text-linkText hover:underline"
+              className="font-semibold text-primaryText hover:text-linkText hover:underline"
             >
               Register
             </Link>

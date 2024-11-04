@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 const Account = () => {
   const { data: user, isLoading, error } = useUserProfile();
 
-  if (error) return <div className="text-msm m-auto">Error fetching user data</div>;
+  if (error) return <div className=" m-auto">Error fetching user data</div>;
 
   const LoadingSkeleton: React.FC<{ width: number | string }> = ({ width }) => (
     <Skeleton width={width} />
@@ -22,11 +22,11 @@ const Account = () => {
   );
 
   return (
-    <div className="account-page p-6 my-4 max-w-2xl mx-auto bg-[#f9fcff] rounded shadow-lg">
-      <h2 className="text-base font-semibold text-primaryText">
+    <div className="account-page p-6 my-4 max-w-2xl mx-auto bg-white rounded shadow-md">
+      <h2 className="text-base font-medium text-primaryText">
         Account Details
       </h2>
-      <div className="account-info my-4 space-y-4 text-sm">
+      <div className="account-info my-6 space-y-6 text-sm">
         {renderAccountInfo(
           "Full Name",
           `${user?.first_name} ${user?.last_name}`

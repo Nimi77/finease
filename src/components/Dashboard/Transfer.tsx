@@ -80,7 +80,7 @@ const Transfer = () => {
     const amount = values.floatValue ?? 0;
     setFieldValue("amount", amount);
 
-    // Check if amount exceeds the account balance
+    // Checking if amount exceeds the account balance
     setIsInsufficientFunds(accountBalance !== null && amount > accountBalance);
   };
 
@@ -89,21 +89,7 @@ const Transfer = () => {
     mutate: makeTransferMutation,
     isLoading,
     isError,
-    isSuccess,
   } = useMutation(makeTransfer, {
-    onSuccess: () => {
-      setFormError(null);
-      toast.success("Transaction successful!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      resetAccountValidationState();
-    },
     onError: (error: AxiosError) => handleError(error, "Transaction failed"),
   });
 
@@ -112,16 +98,26 @@ const Transfer = () => {
     setFormError(null);
 
     makeTransferMutation(values, {
+      onSuccess: () => {
+        toast.success("Transaction successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        resetAccountValidationState();
+        resetForm();
+      },
       onSettled: () => {
         setSubmitting(false);
-        if (isSuccess) {
-          resetForm();
-        }
       },
     });
   };
 
-  // Reset form state to show only account number
+  // Resetting form state to show only account number
   const resetAccountValidationState = () => {
     setAccountName(null);
     setBankName(null);
@@ -129,11 +125,11 @@ const Transfer = () => {
   };
 
   return (
-    <div className="transfer max-w-2xl my-4 mx-auto p-6 bg-[#f9fcff] rounded shadow-lg">
+    <div className="transfer max-w-2xl my-4 mx-auto p-6 bg-white rounded shadow-md">
       <ToastContainer />
-      <h3 className="text-primaryText font-semibold text-base leading-9">
+      <h2 className="text-primaryText font-semibold text-base">
         Transfer Funds Instantly and Securely
-      </h3>
+      </h2>
 
       <Formik
         initialValues={{
@@ -168,11 +164,13 @@ const Transfer = () => {
                       handleChange(e);
                     }}
                     onBlur={handleBlur}
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 bg-transparent shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
                   />
                   {isError ||
                     (formError && (
-                      <p className="text-red-500 text-sm mt-2">{formError}</p>
+                      <span className="text-red-500 text-sm mt-2">
+                        {formError}
+                      </span>
                     ))}
                 </div>
               </div>
@@ -208,23 +206,28 @@ const Transfer = () => {
               )}
               {/* Wallet */}
               {isAccountValid && accountBalance !== null && (
-                <div className="account-balance-field">
+                <div className="account-balance-field space-y-2">
                   <label className="block text-sm font-medium text-gray-800">
                     Wallet
                   </label>
-                  <input
-                    id="account_balance"
-                    name="account_balance"
-                    type="text"
-                    placeholder={`₦${accountBalance.toLocaleString()}`}
-                    disabled
-                    className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
-                  />
-                  {isInsufficientFunds && (
-                    <span className="text-gray-400 text-sm mt-2">
-                      Insufficient balance for this transaction
-                    </span>
-                  )}
+                  <div>
+                    <input
+                      id="account_balance"
+                      name="account_balance"
+                      type="text"
+                      placeholder={`${new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      }).format(user?.account?.balance ?? 0)}`}
+                      disabled
+                      className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                    />
+                    {isInsufficientFunds && (
+                      <span className="text-red-500 text-sm mt-2">
+                        Insufficient balance for this transaction
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
               {/* Remaining Form Fields (shown only if account number is valid) */}
@@ -253,7 +256,7 @@ const Transfer = () => {
                       />
                       <ErrorMessage
                         name="amount"
-                        component="div"
+                        component="span"
                         className="text-red-500 text-sm mt-2"
                       />
                     </div>
@@ -274,7 +277,7 @@ const Transfer = () => {
                       />
                       <ErrorMessage
                         name="narration"
-                        component="div"
+                        component="span"
                         className="text-red-500 text-sm mt-2"
                       />
                     </div>

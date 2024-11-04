@@ -5,15 +5,13 @@ import { DepositSchema } from "../../schema/Schema";
 import { useMutation } from "react-query";
 import { ChangeEvent, useState } from "react";
 import { AxiosError } from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const Deposit = () => {
   const [formError, setFormError] = useState<string | null>(null);
 
   // React Query's mutation for handling deposits
-  const { mutate, isLoading, isError, isSuccess } = useMutation(makeDeposit, {
-    onSuccess: () => {
-      setFormError(null);
-    },
+  const { mutate, isLoading, isError } = useMutation(makeDeposit, {
     onError: (error: AxiosError) => {
       setFormError(error.message);
     },
@@ -24,18 +22,28 @@ const Deposit = () => {
 
     setFormError(null);
     mutate(values, {
+      onSuccess: () => {
+        toast.success("Deposit successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        resetForm();
+      },
       onSettled: () => {
         setSubmitting(false);
-        if (isSuccess) {
-          resetForm();
-        }
       },
     });
   };
 
   return (
-    <div className="deposit-c min-h-full max-w-2xl mx-auto p-6 bg-[#f9fcff] rounded shadow-lg">
-      <h2 className="text-primaryText text-base font-semibold leading-9">
+    <div className="deposit-c min-h-full max-w-2xl mx-auto my-5 p-6 bg-white rounded shadow-md">
+      <ToastContainer />
+      <h2 className="text-primaryText text-base font-semibold">
         Deposit Funds, Unlock New Opportunities
       </h2>
 
@@ -74,7 +82,7 @@ const Deposit = () => {
                     setFieldValue("amount", values.floatValue ?? "")
                   }
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 bg-transparent text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor transition-all ease-linear duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor transition-all ease-linear duration-200"
                   valueIsNumericString
                 />
                 <ErrorMessage
@@ -101,7 +109,7 @@ const Deposit = () => {
                     handleChange(e);
                   }}
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 bg-transparent text-sm text-gray-900 shadow-sm ring-1 focus:ring-2 focus:ring-inset focus:ring-focusColor leading-6 transition-all ease-linear duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor transition-all ease-linear duration-200"
                 />
                 <ErrorMessage
                   name="narration"
@@ -114,11 +122,6 @@ const Deposit = () => {
             {/* Error and Success Messages */}
             <div className="mb-2">
               {isError && <p className="text-red-500 text-sm">{formError}</p>}
-              {isSuccess && (
-                <p className="text-green-800 bg-[#b3ffb99c] py-1 px-4 w-max text-sm rounded">
-                  Deposit successful!
-                </p>
-              )}
             </div>
 
             {/* Submit Button */}
