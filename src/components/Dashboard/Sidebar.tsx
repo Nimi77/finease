@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 import { FiX } from "react-icons/fi";
 import { useUserProfile } from "../../store/userStore";
-import { motion } from "framer-motion";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,20 +19,24 @@ interface NavItemProps {
 }
 
 const LinkItems = [
-  { label: "Home", icon: <BiHome size={20} />, href: "/dashboard" },
+  {
+    label: "Home",
+    icon: <BiHome size={20} aria-hidden="true" />,
+    href: "/dashboard",
+  },
   {
     label: "Transactions",
-    icon: <BiTransferAlt size={20} />,
+    icon: <BiTransferAlt size={20} aria-hidden="true" />,
     href: "/dashboard/transactions",
   },
   {
     label: "Account",
-    icon: <RiAccountCircleLine size={20} />,
+    icon: <RiAccountCircleLine size={20} aria-hidden="true" />,
     href: "/dashboard/account",
   },
   {
     label: "Settings",
-    icon: <CiSettings size={20} />,
+    icon: <CiSettings size={20} aria-hidden="true" />,
     href: "/dashboard/settings",
   },
 ];
@@ -58,30 +61,23 @@ const NavItem: React.FC<NavItemProps> = ({
   </li>
 );
 
-const Sidebar: React.FC<SidebarProps> = ({ className, isOpen, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
   const { data: user, isLoading } = useUserProfile();
   const location = useLocation();
 
   return (
-    <motion.aside
-      initial={{ x: "-100%" }}
-      animate={{ x: isOpen ? "0%" : "0%" }}
-      transition={{ type: "tween", duration: 0.5 }}
-      className={`sidebar bg-secondary w-60 h-full fixed top-0 left-0 pt-6 pb-8 px-6 transiton ease-in-out duration-300 ${className}`}
-      role="navigation"
-      aria-label="Sidebar navigation"
-    >
+    <>
       <div className="min-h-full flex flex-col">
         <div className="flex items-center justify-between px-1">
-          <div className="brand-name text-white" aria-label="Brand name">
-            <span className="text-2xl font-semibold leading-8">Finease</span>
+          <div className="brand-name text-white">
+            <h4 className="text-2xl font-semibold leading-8">Finease</h4>
           </div>
           <button
             onClick={onClose}
-            className="close-btn flex items-center md:hidden cursor-pointer"
+            className="close-btn flex items-center md:hidden"
             aria-label="Close sidebar"
           >
-            <FiX size={22} color="white" />
+            <FiX size={22} color="white" aria-hidden="true" />
           </button>
         </div>
         <nav className="sidebar-nav flex-1 my-9" aria-label="Main navigation">
@@ -124,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, isOpen, onClose }) => {
           )}
         </div>
       </div>
-    </motion.aside>
+    </>
   );
 };
 

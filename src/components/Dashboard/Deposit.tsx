@@ -82,7 +82,7 @@ const Deposit = () => {
                     setFieldValue("amount", values.floatValue ?? "")
                   }
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor transition-all ease-linear duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  transition-all ease-linear duration-200"
                   valueIsNumericString
                 />
                 <ErrorMessage
@@ -109,7 +109,7 @@ const Deposit = () => {
                     handleChange(e);
                   }}
                   onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor transition-all ease-linear duration-200"
+                  className="block w-full rounded-md border-0 py-1.5 px-3 text-sm leading-6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 transition-all ease-linear duration-200"
                 />
                 <ErrorMessage
                   name="narration"

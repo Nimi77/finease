@@ -51,28 +51,27 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="m-auto">
-      <Link
-        to="/"
-        className="absolute top-4 right-4 text-primaryText hover:text-linkText transition-transform transform hover:-translate-x-1"
-      >
-        <button className="flex items-center justify-center text-sm border-0">
-          <RxDoubleArrowLeft className="mr-1 animate-pulse" /> Go Back Home
-        </button>
-      </Link>
+    <div className="registration-page">
       <main
-        className="flex justify-center pt-20 pb-8"
-        aria-labelledby="register-heading"
+        className="relative flex justify-center"
+        aria-labelledby="reg-heading"
       >
-        <div className="w-full max-w-sm" aria-live="polite">
-          <div className="text-center">
-            <h1
-              id="register-heading"
-              className="text-primaryText text-2xl font-bold leading-9"
-            >
-              Create an account
+        <Link
+          to="/"
+          className="absolute top-4 right-4 flex items-center gap-1 text-sm text-primaryText hover:text-linkText transition-transform transform hover:-translate-x-1"
+          aria-label="Go back home"
+        >
+          <RxDoubleArrowLeft className="animate-pulse" aria-hidden="true" />
+          Go Back Home
+        </Link>
+
+        <div className="w-full pt-20 pb-8" aria-live="polite">
+          <div id="reg-heading" className="text-center">
+            <h1 className="text-primaryText text-2xl font-bold leading-9">
+              Create Your Account
             </h1>
           </div>
+
           <Formik
             initialValues={{
               first_name: "",
@@ -87,9 +86,16 @@ const RegisterForm = () => {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting, handleChange, handleBlur }) => (
-              <Form className="registraton-form mt-10 mb-3">
-                <div className="user-details md:space-y-2 space-y-4">
-                  <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+              <Form
+                className="m-auto max-w-sm mt-8 mb-3 sm:max-w-lg"
+                aria-label="registration form"
+              >
+                <fieldset
+                  className="reg-details md:space-y-2 space-y-4"
+                  disabled={isSubmitting}
+                >
+                  <legend className="sr-only">Personal information</legend>
+                  <div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:gap-5">
                     <FormInput
                       label="First Name"
                       name="first_name"
@@ -99,7 +105,7 @@ const RegisterForm = () => {
                       setSuccessMss={setSuccessMss}
                       handleChange={handleChange}
                       handleBlur={handleBlur}
-                      className="w-full md:w-auto flex-1"
+                      className="w-full sm:w-auto flex-1"
                     />
                     <FormInput
                       label="Last Name"
@@ -110,7 +116,7 @@ const RegisterForm = () => {
                       setSuccessMss={setSuccessMss}
                       handleChange={handleChange}
                       handleBlur={handleBlur}
-                      className="w-full md:w-auto flex-1"
+                      className="w-full sm:w-auto flex-1"
                     />
                   </div>
                   <FormInput
@@ -133,7 +139,7 @@ const RegisterForm = () => {
                     handleChange={handleChange}
                     handleBlur={handleBlur}
                   />
-                  <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+                  <div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:gap-5">
                     <FormInput
                       label="Phone Number"
                       name="phone_number"
@@ -143,7 +149,7 @@ const RegisterForm = () => {
                       setSuccessMss={setSuccessMss}
                       handleChange={handleChange}
                       handleBlur={handleBlur}
-                      className="w-full md:w-auto flex-1"
+                      className="w-full sm:w-auto flex-1"
                     />
                     <FormInput
                       label="Date of Birth"
@@ -154,7 +160,7 @@ const RegisterForm = () => {
                       setSuccessMss={setSuccessMss}
                       handleChange={handleChange}
                       handleBlur={handleBlur}
-                      className="w-full md:w-auto"
+                      className="w-full sm:w-auto"
                     />
                   </div>
                   <FormInput
@@ -167,7 +173,7 @@ const RegisterForm = () => {
                     handleChange={handleChange}
                     handleBlur={handleBlur}
                   />
-                </div>
+                </fieldset>
                 {/* success and error message */}
                 <div aria-live="assertive" className="text-left mt-2">
                   {isError && formError && (
@@ -181,11 +187,11 @@ const RegisterForm = () => {
                     </span>
                   )}
                 </div>
-                {/* registraton button */}
+                {/* registration button */}
                 <button
                   type="submit"
                   disabled={isSubmitting || isLoading}
-                  className={`flex w-full items-center justify-center font-semibold leading-6 text-sm text-white h-10 px-3 mt-4 rounded-md shadow-sm transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800 ${
+                  className={`flex w-full items-center justify-center font-semibold leading-6 text-sm text-white h-10 px-3 mt-4 rounded-md shadow-sm transition-all duration-300 ${
                     isSubmitting || isLoading
                       ? "bg-loading cursor-not-allowed"
                       : "bg-secondary cursor-pointer hover:bg-active"

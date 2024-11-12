@@ -164,7 +164,7 @@ const Transfer = () => {
                       handleChange(e);
                     }}
                     onBlur={handleBlur}
-                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500  text-sm leading-6"
                   />
                   {isError ||
                     (formError && (
@@ -185,7 +185,7 @@ const Transfer = () => {
                     type="text"
                     placeholder={bankName}
                     disabled
-                    className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                    className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  text-sm leading-6"
                   />
                 </div>
               )}
@@ -200,7 +200,7 @@ const Transfer = () => {
                     type="text"
                     placeholder={accountName}
                     disabled
-                    className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                    className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  text-sm leading-6"
                   />
                 </div>
               )}
@@ -220,7 +220,7 @@ const Transfer = () => {
                         currency: "NGN",
                       }).format(user?.account?.balance ?? 0)}`}
                       disabled
-                      className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  text-sm leading-6"
                     />
                     {isInsufficientFunds && (
                       <span className="text-red-500 text-sm mt-2">
@@ -251,7 +251,7 @@ const Transfer = () => {
                           handleAmountChange(values, setFieldValue)
                         }
                         onBlur={handleBlur}
-                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6 transition-all ease-in-out duration-200"
+                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  text-sm leading-6 transition-all ease-in-out duration-200"
                         valueIsNumericString
                       />
                       <ErrorMessage
@@ -273,7 +273,7 @@ const Transfer = () => {
                         placeholder="Narration"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-focusColor text-sm leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  text-sm leading-6"
                       />
                       <ErrorMessage
                         name="narration"

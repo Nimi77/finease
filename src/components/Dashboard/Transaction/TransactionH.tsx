@@ -56,9 +56,6 @@ const TransactionHistory = () => {
     refetch();
   };
 
-  console.log(filteredTransactions.length, transactionsToShow.length);
-  console.log(transactionResponse);
-
   if (isLoading) return <TransactionSkeleton />;
   if (error) return <div>Error fetching transactions</div>;
 
@@ -150,9 +147,9 @@ const TransactionHistory = () => {
                 <div className="flex items-center justify-center gap-2">
                   <div className="bg-gray-100 text-green-800 rounded-full p-2">
                     {transaction.transaction_type === "deposit" ? (
-                      <IoArrowDown size={18} />
+                      <IoArrowDown size={18} aria-hidden="true" />
                     ) : (
-                      <IoArrowUp size={18} />
+                      <IoArrowUp size={18} aria-hidden="true" />
                     )}
                   </div>
                   <div className="transaction-info space-y-1">

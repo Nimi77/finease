@@ -35,7 +35,7 @@ const Transactions = () => {
   };
 
   if (isLoading) return <TransactionSkeleton />;
-  if (error) return <div>Error fetching transactions</div>;
+  if (error) return <p>Error fetching transactions</p>;
 
   return (
     <>
@@ -49,8 +49,9 @@ const Transactions = () => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className="p-1 bg-secondary text-white rounded-full disabled:opacity-50"
+            aria-label="Previous transactions"
           >
-            <RxDoubleArrowLeft />
+            <RxDoubleArrowLeft aria-hidden="true" />
           </button>
           <span className="text-gray-700 font-semibold text-sm">
             Page {currentPage} of {totalPages}
@@ -59,18 +60,22 @@ const Transactions = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="p-1 bg-secondary text-white rounded-full disabled:opacity-50"
+            aria-label="Next transactions"
           >
-            <RxDoubleArrowRight />
+            <RxDoubleArrowRight aria-hidden="true" />
           </button>
         </div>
       </div>
       {transactions.length === 0 ? (
-        <p className="text-sm">No transactions found.</p>
+        <p>No transactions found.</p>
       ) : (
         <>
           {/* Table layout for large screens and above */}
           <div className="hidden lg:block overflow-x-auto mt-4 rounded-md">
-            <table className="w-full table-auto border-collapse border border-gray-200">
+            <table
+              className="w-full table-auto border-collapse border border-gray-200"
+              aria-label="Transactions table"
+            >
               <thead>
                 <tr className="bg-[#F7F7F7] border-y text-msm">
                   <th className="px-4 py-3 text-left  text-gray-500">Name</th>
@@ -117,8 +122,8 @@ const Transactions = () => {
                       <span
                         className={`font-medium text-sm px-2 py-0.5 rounded-md ${
                           transaction.transaction_type === "deposit"
-                            ? "text-green-600 bg-[#ccffd09c]"
-                            : "text-red-600 bg-[#ffc8cd9c]"
+                            ? "text-[#117E39] bg-[#CCFFD09C]"
+                            : "text-[#C52222] bg-[#FFC8CD9C]"
                         }`}
                       >
                         {transaction.transaction_type === "deposit"
@@ -145,9 +150,9 @@ const Transactions = () => {
                 <div className="flex items-center justify-center gap-2">
                   <div className="bg-gray-100 text-green-800 rounded-full p-2">
                     {transaction.transaction_type === "deposit" ? (
-                      <IoArrowDown size={18} />
+                      <IoArrowDown size={18} aria-hidden="true" />
                     ) : (
-                      <IoArrowUp size={18} />
+                      <IoArrowUp size={18} aria-hidden="true" />
                     )}
                   </div>
                   <div className="transaction-info space-y-1">

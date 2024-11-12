@@ -4,7 +4,8 @@ import Skeleton from "react-loading-skeleton";
 const Account = () => {
   const { data: user, isLoading, error } = useUserProfile();
 
-  if (error) return <div className=" m-auto">Error fetching user data</div>;
+  if (error)
+    return <div className="text-gray-800 m-auto">Error fetching user data</div>;
 
   const LoadingSkeleton: React.FC<{ width: number | string }> = ({ width }) => (
     <Skeleton width={width} />
@@ -44,7 +45,7 @@ const Account = () => {
           "Status",
           <span
             className={`font-semibold ${
-              user?.status === "active" ? "text-green-600" : "text-red-600"
+              user?.status === "active" ? "text-green-700" : "text-red-600"
             }`}
           >
             {user?.status}

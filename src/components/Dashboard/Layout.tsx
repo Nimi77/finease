@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import { motion } from "framer-motion";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -12,18 +13,22 @@ const DashboardLayout = () => {
 
   return (
     <div className="dashboard min-h-screen flex">
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={onClose}
-        className="hidden md:block"
-      />
+      <aside className="sidebar bg-secondary w-60 h-full fixed top-0 left-0 pt-6 pb-8 px-6 hidden md:block">
+        <Sidebar isOpen={isSidebarOpen} onClose={onClose} />
+      </aside>
 
       {isSidebarOpen && (
         <div className="fixed inset-0 z-40" onClick={onClose}>
           <div className="fixed inset-0 bg-black bg-opacity-35 md:hidden"></div>
-          <div>
+          <motion.aside
+            initial={{ x: "-100%" }}
+            animate={{ x: isSidebarOpen ? "0%" : "-100%" }}
+            transition={{ type: "tween", duration: 0.6 }}
+            className={`sidebar bg-secondary w-60 h-full fixed top-0 left-0 pt-6 pb-8 px-6 transition ease-in-out duration-300`}
+            aria-label="Sidebar navigation"
+          >
             <Sidebar isOpen={isSidebarOpen} onClose={onClose} />
-          </div>
+          </motion.aside>
         </div>
       )}
 

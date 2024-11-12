@@ -46,23 +46,26 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="m-auto">
-      <Link
-        to="/"
-        className="absolute top-4 right-4 text-primaryText hover:text-linkText transition-transform transform hover:-translate-x-1"
-      >
-        <button className="flex items-center justify-center text-sm border-0">
-          <RxDoubleArrowLeft className="mr-1 animate-pulse" /> Go Back Home
-        </button>
-      </Link>
+    <div className="login-page m-auto">
       <main className="flex justify-center" aria-labelledby="login-heading">
+        <Link
+          to="/"
+          className="absolute top-4 right-4 flex items-center justify-center text-sm  text-primaryText hover:text-linkText transition-transform transform hover:-translate-x-1"
+        >
+          <RxDoubleArrowLeft
+            className="mr-1 animate-pulse"
+            aria-hidden="true"
+          />{" "}
+          Go Back Home
+        </Link>
+
         <div className="w-full max-w-sm" aria-live="polite">
-          <h1
-            id="login-heading"
-            className="text-center text-primaryText text-2xl font-bold leading-9 tracking-tight"
-          >
-            Login to your account
-          </h1>
+          <div id="login-heading" className="text-center">
+            <h1 className="text-primaryText text-2xl font-bold leading-9">
+              Log In
+            </h1>
+            <p>Enter your credentials</p>
+          </div>
 
           <Formik
             initialValues={{
@@ -73,8 +76,12 @@ const LoginForm = () => {
             onSubmit={handleLogin}
           >
             {({ isSubmitting, handleChange, handleBlur }) => (
-              <Form className="login-form mt-10 mb-3">
-                <div className="user-detials space-y-4">
+              <Form className="mt-8 mb-3" aria-label="login-form">
+                <fieldset
+                  className="user-detials space-y-4"
+                  disabled={isSubmitting}
+                >
+                  <legend className="sr-only">Login credentials</legend>
                   <FormInput
                     label="Email"
                     name="email"
@@ -93,7 +100,8 @@ const LoginForm = () => {
                     handleChange={handleChange}
                     handleBlur={handleBlur}
                   />
-                </div>
+                </fieldset>
+
                 {/* error message */}
                 <div aria-live="assertive" className="mt-2">
                   {isError && formError && (

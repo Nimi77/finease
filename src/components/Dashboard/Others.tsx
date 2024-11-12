@@ -10,7 +10,7 @@ import { useUnreadCountStore } from "../../store/unreadCountStore";
 
 export default function Others() {
   const [isNotificationOpen, setIsNoticationOpen] = useState(false);
-  const [isOthersOpen, setIsOthersOpen] = useState(false);
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [previousTransactions, setPreviousTransactions] = useState<
     Transaction[]
   >([]);
@@ -47,12 +47,12 @@ export default function Others() {
       setIsNoticationOpen((prev) => !prev);
       resetUnreadCount();
     } else {
-      setIsOthersOpen((prev) => !prev);
+      setIsOptionsOpen((prev) => !prev);
     }
 
-    // If opening any dropdown, add event listener; if closing, remove it
+    // when any dropdown is opened, event listener added; if closing, removed
     const isOpen =
-      dropdown === "notification" ? isNotificationOpen : isOthersOpen;
+      dropdown === "notification" ? isNotificationOpen : isOptionsOpen;
     if (!isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
@@ -66,7 +66,7 @@ export default function Others() {
       !dropdownRef.current.contains(event.target as Node)
     ) {
       setIsNoticationOpen(false);
-      setIsOthersOpen(false);
+      setIsOptionsOpen(false);
       document.removeEventListener("mousedown", handleClickOutside);
     }
   };
@@ -79,19 +79,22 @@ export default function Others() {
   return (
     <div className="items-center gap-4 flex justify-center">
       {/* Notification  */}
+      <span id="notificationLabel" className="sr-only">
+        Open Notification
+      </span>
       <button
         onClick={() => toggleDropdown("notification")}
-        id="notification-menu-btn"
+        id="notification-btn"
         className="relative bg-gray-100 p-1.5 rounded-full flex items-center space-x-3 hover:bg-gray-200 transition-all duration-200 ease-linear focus:outline-none focus:ring-1 focus:ring-gray-500"
-        aria-label="Open Notification"
-        aria-controls="notification-box"
-        role="alert"
-        aria-haspopup="true"
+        aria-labelledby="notificationLabel"
         aria-expanded={isNotificationOpen}
       >
-        <span className="not-icon text-gray-600">
-          <IoMdNotificationsOutline size={20} />
-        </span>
+        <IoMdNotificationsOutline
+          size={20}
+          className="not-icon text-gray-600"
+          aria-hidden="true"
+        />
+
         {unreadCount > 0 && (
           <div className="bg-red-600 w-4 h-4 flex items-center justify-center absolute top-0 -right-2 rounded-full">
             <span className="text-xs text-white">{unreadCount}</span>
@@ -102,25 +105,26 @@ export default function Others() {
       {isNotificationOpen && (
         <div
           ref={dropdownRef}
-          id="notification-box"
+          id="noificationDropdown"
           className="notifcation-info-card absolute top-full mt-2 right-5 w-max p-4 bg-white rounded-md border shadow-lg"
-          aria-labelledby="notification-menu-btn"
           aria-live="polite"
         >
           <div className="notification-heading flex justify-between items-center">
             <h4>Alert</h4>
             <button
               onClick={() => setIsNoticationOpen(false)}
-              className="border p-1"
-              aria-label="Close notification info"
+              className="p-1 text-red-600 ring-1 ring-inset ring-gray-300"
+              aria-label="Close notification"
             >
-              <span className="text-red-600">
-                <FiX />
-              </span>
+              <FiX aria-hidden="true" />
             </button>
           </div>
           <div className="notification-text mt-4">
-            <ul className="max-h-60 overflow-y-auto space-y-2">
+            <ul
+              tabIndex={0}
+              aria-label="Transactions alert"
+              className="max-h-60 overflow-y-auto space-y-2"
+            >
               {transactionsToShow.length > 0 ? (
                 transactionsToShow.map((transaction) => (
                   <li
@@ -176,28 +180,31 @@ export default function Others() {
           </div>
         </div>
       )}
-      {/* user others */}
+      {/* more options */}
+      <span id="OptionsLabel" className="sr-only">
+        Open more options
+      </span>
       <button
         onClick={() => toggleDropdown("others")}
-        id="other-info"
-        className="bg-gray-100 p-1.5 rounded-full relative flex items-center space-x-3 hover:bg-gray-200 transition-all duration-200 ease-linear focus:outline-none focus:ring-1 focus:ring-gray-500"
-        aria-label="Open Others"
-        aria-controls="others-box"
-        aria-expanded={isOthersOpen ? "true" : "false"}
+        className="bg-gray-100 p-1.5 rounded-full relative flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ease-linear focus:outline-none focus:ring-1 focus:ring-gray-500"
+        aria-labelledby="OptionsLabel"
+        aria-expanded={isOptionsOpen ? "true" : "false"}
       >
-        <span className="others text-gray-600">
-          <PiDotsThreeOutlineVertical size={18} />
+        <span className="text-gray-600">
+          <PiDotsThreeOutlineVertical size={18} aria-hidden="true" />
         </span>
       </button>
-      {isOthersOpen && (
+      {isOptionsOpen && (
         <div
           ref={dropdownRef}
-          id="others-box"
+          id="optionDropdown"
           className="absolute top-full py-2 right-5 w-40 bg-white border rounded-md shadow-lg"
-          aria-labelledby="other-info"
           aria-live="polite"
         >
-          <ul className="text-sm text-gray-800 space-y-4">
+          <ul
+            aria-label="More menu options"
+            className="text-sm text-gray-800 space-y-4"
+          >
             <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard/account">Profile</Link>
             </li>
@@ -207,11 +214,10 @@ export default function Others() {
             <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard">Settings</Link>
             </li>
-            <li
-              onClick={handleLogOut}
-              className="px-6 border-t py-2 cursor-pointer hover:text-gray-600"
-            >
-              LogOut
+            <li className="px-6 border-t py-2 cursor-pointer hover:text-gray-600">
+              <button onClick={handleLogOut} className="bg-inherit">
+                LogOut
+              </button>
             </li>
           </ul>
         </div>

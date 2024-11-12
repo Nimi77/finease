@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <div className="md:space-y-8 space-y-6">
       {/* first section */}
-      <div className="w-full h-40 bg-[#b38418] text-gray-50 p-4 flex flex-col justify-between rounded-md">
+      <div className="w-full h-40 bg-[#976f01] text-white p-4 flex flex-col justify-between rounded-md">
         <div className="heading flex justify-between items-center">
           <div className="flex justify-center">
             <div
@@ -39,7 +39,7 @@ const Home = () => {
             className="text-sm bg-inherit flex justify-center items-center"
           >
             Transaction History{" "}
-            <span className="pt-1 pl-2">
+            <span className="pt-1 pl-2" aria-hidden="true">
               <IoIosArrowForward size={17} />
             </span>
           </button>
@@ -60,16 +60,16 @@ const Home = () => {
             </span>
           )}
           <button
-            className="p-0 m-0 items-center"
+            className="px-1 items-center"
             onClick={() => setShowBalance(!showBalance)}
             aria-label={showBalance ? "Hide balance" : "Show balance"}
           >
             {showBalance ? (
-              <span className="show">
+              <span className="show-balance" aria-hidden="true">
                 <BiSolidShow size={20} />
               </span>
             ) : (
-              <span className="hide">
+              <span className="hide-balance" aria-hidden="true">
                 <BiSolidHide size={20} />
               </span>
             )}
@@ -90,8 +90,7 @@ const Home = () => {
             aria-label="Deposit funds"
           >
             <div className="flex items-center justify-center gap-2">
-              <span className="transfer-icon">
-                {" "}
+              <span className="transfer-icon" aria-hidden="true">
                 <BiTransferAlt size={21} />
               </span>
               Deposit
@@ -111,7 +110,7 @@ const Home = () => {
             aria-label="Transfer funds"
           >
             <div className="flex items-center justify-center gap-2">
-              <span className="deposit-icon">
+              <span className="deposit-icon" aria-hidden="true">
                 <PiHandDepositDuotone size={20} />
               </span>
               Transfer
