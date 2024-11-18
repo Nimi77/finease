@@ -1,9 +1,9 @@
+import { useUserProfile } from "../../store/userStore";
 import { BiHome, BiTransferAlt } from "react-icons/bi";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 import { FiX } from "react-icons/fi";
-import { useUserProfile } from "../../store/userStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,22 +21,22 @@ interface NavItemProps {
 const LinkItems = [
   {
     label: "Home",
-    icon: <BiHome size={20} aria-hidden="true" />,
+    icon: <BiHome size={21} aria-hidden="true" />,
     href: "/dashboard",
   },
   {
     label: "Transactions",
-    icon: <BiTransferAlt size={20} aria-hidden="true" />,
+    icon: <BiTransferAlt size={21} aria-hidden="true" />,
     href: "/dashboard/transactions",
   },
   {
     label: "Account",
-    icon: <RiAccountCircleLine size={20} aria-hidden="true" />,
+    icon: <RiAccountCircleLine size={21} aria-hidden="true" />,
     href: "/dashboard/account",
   },
   {
     label: "Settings",
-    icon: <CiSettings size={20} aria-hidden="true" />,
+    icon: <CiSettings size={21} aria-hidden="true" />,
     href: "/dashboard/settings",
   },
 ];
@@ -54,7 +54,7 @@ const NavItem: React.FC<NavItemProps> = ({
           ${isActive ? "bg-active" : "bg-transparent"}
         `}
       >
-        <div className="text-[#f0b221] mr-3">{icon}</div>
+        <div className="text-[#ffbc20] mr-3">{icon}</div>
         <span>{children}</span>
       </div>
     </Link>
@@ -114,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
                 <span className="account-name font-medium text-gray-100">
                   {user?.first_name} {user?.last_name}
                 </span>
-                <span className="text-sm text-gray-300">{user?.email}</span>
+                <span className="text-sm text-gray-200">{user?.email}</span>
               </div>
             </div>
           )}

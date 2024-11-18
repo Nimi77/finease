@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        NotoSans: ["Jost", "sans-serif"],
+        Outfit: ["Outfit", "sans-serif"],
       },
       fontSize: {
         msm: "0.92rem",

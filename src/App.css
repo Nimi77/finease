@@ -17,6 +17,38 @@
   justify-content: space-between;
   gap: 1rem;
 }
+.h-text {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.transaction-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.transaction-info span {
+  font-size: 0.875rem;
+}
+.m-transaction-card {
+  display: none;
+}
+.transaction-modal-details div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.94rem;
+  padding-block: 0.6rem;
+  padding-inline: 1rem;
+}
+.transaction-modal-details div:not(:last-child) {
+  border-bottom: 1px solid #e5e7eb;
+}
+.transaction-modal-details div span:first-child {
+  color: #6b7280;
+}
+
 .loader01 {
   background-color: #2a3b39;
   animation: loader0 1.2s infinite ease-in-out;
@@ -70,6 +102,25 @@
 @media (max-width: 900px) {
   .sec-two {
     flex-direction: column;
-    gap:1.5rem;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 640px) {
+  .h-text {
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 400px) {
+  .h-text {
+    display: none;
+  }
+  .transaction-container {
+    display: none;
+  }
+  .m-transaction-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }

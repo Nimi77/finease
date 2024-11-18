@@ -51,7 +51,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="registration-page">
+    <div className="reg page">
       <main
         className="relative flex justify-center"
         aria-labelledby="reg-heading"
@@ -87,7 +87,7 @@ const RegisterForm = () => {
           >
             {({ isSubmitting, handleChange, handleBlur }) => (
               <Form
-                className="m-auto max-w-sm mt-8 mb-3 sm:max-w-lg"
+                className="m-auto mt-8 mb-3 px-5 max-w-lg"
                 aria-label="registration form"
               >
                 <fieldset

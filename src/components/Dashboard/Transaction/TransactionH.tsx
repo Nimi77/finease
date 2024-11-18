@@ -4,12 +4,15 @@ import { useQuery } from "react-query";
 import { useMemo, useState } from "react";
 import { IoArrowDown, IoArrowUp } from "react-icons/io5";
 import { useDashboardLayoutContext } from "../Context";
+import TransactionModal from "./TransactionModal";
 
 const TransactionHistory = () => {
   const { searchQuery } = useDashboardLayoutContext();
   const [showAll, setShowAll] = useState(false);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(12);
   const [transactionResponse, setTransactionResponse] = useState<any>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   const { isLoading, error, refetch } = useQuery(
     ["transactions", limit],
@@ -55,6 +58,8 @@ const TransactionHistory = () => {
     setShowAll(!showAll);
     refetch();
   };
+
+  const closeModal = () => setSelectedTransaction(null);
 
   if (isLoading) return <TransactionSkeleton />;
   if (error) return <div>Error fetching transactions</div>;
@@ -119,8 +124,8 @@ const TransactionHistory = () => {
                       <span
                         className={`font-medium text-sm px-2 py-0.5 rounded-md ${
                           transaction.transaction_type === "deposit"
-                            ? "text-green-600 bg-[#ccffd09c]"
-                            : "text-red-600 bg-[#ffc8cd9c]"
+                            ? "text-green-700 bg-[#ccffd09c]"
+                            : "text-red-700 bg-[#ffc8cd9c]"
                         }`}
                       >
                         {transaction.transaction_type === "deposit"
@@ -138,13 +143,72 @@ const TransactionHistory = () => {
           </div>
 
           {/* Card layout for medium screens and below */}
-          <div className="lg:hidden space-y-4 pb-6 pt-4">
-            {transactionsToShow.map((transaction: Transaction) => (
+          <div className="lg:hidden space-y-4 mt-4">
+            {transactions.map((transaction: Transaction) => (
               <div
                 key={transaction.id}
-                className="transaction-card bg-white shadow p-4 rounded-md flex justify-between items-center"
+                className="transaction-card bg-white shadow p-4 rounded-md cursor-pointer"
+                onClick={() => setSelectedTransaction(transaction)}
               >
-                <div className="flex items-center justify-center gap-2">
+                <div className="transaction-container">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="bg-gray-100 text-green-800 rounded-full p-2">
+                      {transaction.transaction_type === "deposit" ? (
+                        <IoArrowDown size={18} aria-hidden="true" />
+                      ) : (
+                        <IoArrowUp size={18} aria-hidden="true" />
+                      )}
+                    </div>
+                    <div className="transaction-info space-y-1">
+                      <div className="font-medium text-gray-800">
+                        <span>
+                          {" "}
+                          Transfer
+                          {transaction.transaction_type === "deposit"
+                            ? " From "
+                            : " To "}
+                        </span>
+                        <span>{transaction.recipient.account_name}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">
+                          {new Date(transaction.created_at).toLocaleString(
+                            "en-NG",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "2-digit",
+                              hour12: true,
+                            }
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="transaction-amount text-right flex flex-col space-y-1">
+                    <span className="font-medium text-gray-800">
+                      {transaction.transaction_type === "deposit"
+                        ? " + "
+                        : " - "}
+                      {new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      }).format(transaction.amount ?? 0)}
+                    </span>
+                    <span className="text-gray-500">
+                      {new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      }).format(transaction.balance_after ?? 0)}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                {/* shown on 320px screen size and below */}
+                <div className="m-transaction-card">
                   <div className="bg-gray-100 text-green-800 rounded-full p-2">
                     {transaction.transaction_type === "deposit" ? (
                       <IoArrowDown size={18} aria-hidden="true" />
@@ -152,9 +216,10 @@ const TransactionHistory = () => {
                       <IoArrowUp size={18} aria-hidden="true" />
                     )}
                   </div>
-                  <div className="transaction-info space-y-1">
-                    <div className="text-sm font-medium text-gray-800">
+                  <div className="transaction-info flex flex-col items-start justify-start">
+                    <div className="font-medium text-gray-800">
                       <span>
+                        {" "}
                         Transfer
                         {transaction.transaction_type === "deposit"
                           ? " From "
@@ -162,42 +227,39 @@ const TransactionHistory = () => {
                       </span>
                       <span>{transaction.recipient.account_name}</span>
                     </div>
-                    <div>
-                      <span className="text-sm text-gray-500">
-                        {new Date(transaction.created_at).toLocaleString(
-                          "en-NG",
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          }
-                        )}
-                      </span>
-                    </div>
+                    <span className="text-gray-800 mt-1 mb-2">
+                      {transaction.transaction_type === "deposit"
+                        ? " + "
+                        : " - "}
+                      {new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      }).format(transaction.amount ?? 0)}
+                    </span>
+                    <span className="text-gray-500">
+                      {new Date(transaction.created_at).toLocaleString(
+                        "en-NG",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        }
+                      )}
+                    </span>
                   </div>
-                </div>
-
-                <div className="transaction-amount text-sm flex flex-col items-center justify-end space-y-1">
-                  <span className="font-medium text-gray-800">
-                    {transaction.transaction_type === "deposit" ? " + " : " - "}
-                    {new Intl.NumberFormat("en-NG", {
-                      style: "currency",
-                      currency: "NGN",
-                    }).format(transaction.amount ?? 0)}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {new Intl.NumberFormat("en-NG", {
-                      style: "currency",
-                      currency: "NGN",
-                    }).format(transaction.balance_after ?? 0)}
-                  </span>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Modal */}
+          <TransactionModal
+            selectedTransaction={selectedTransaction}
+            closeModal={closeModal}
+          />
 
           {/* Show More / Show Less button */}
           <div className="flex items-center justify-center">

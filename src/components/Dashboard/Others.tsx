@@ -1,4 +1,5 @@
 import { fetchTransactions, Transaction } from "../../api/transaction";
+import { useUnreadCountStore } from "../../store/unreadCountStore";
 import { PiDotsThreeOutlineVertical } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useAuthStore } from "../../store/authStore";
@@ -6,15 +7,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { FiX } from "react-icons/fi";
 import { useRef, useState } from "react";
-import { useUnreadCountStore } from "../../store/unreadCountStore";
 
 export default function Others() {
-  const [isNotificationOpen, setIsNoticationOpen] = useState(false);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [previousTransactions, setPreviousTransactions] = useState<
     Transaction[]
   >([]);
   const [showAll, setShowAll] = useState(false);
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const logout = useAuthStore((state) => state.logout);
@@ -30,8 +32,10 @@ export default function Others() {
         (transaction) =>
           !previousTransactions.some((prev) => prev.id === transaction.id)
       );
+
       if (newTransactions.length > 0) {
-        setUnreadCount(unreadCount + newTransactions.length);
+        const currentUnreadCount = unreadCount;
+        setUnreadCount(currentUnreadCount + 1);
         setPreviousTransactions((prev) => [...newTransactions, ...prev]);
       }
     },
@@ -40,17 +44,19 @@ export default function Others() {
   const transactionsToShow = showAll
     ? previousTransactions
     : previousTransactions.slice(0, 3);
+
   const toggleShowAll = () => setShowAll((prev) => !prev);
 
   const toggleDropdown = (dropdown: "notification" | "others") => {
     if (dropdown === "notification") {
-      setIsNoticationOpen((prev) => !prev);
-      resetUnreadCount();
+      setIsNotificationOpen((prev) => !prev);
+      if (!isNotificationOpen) {
+        resetUnreadCount();
+      }
     } else {
       setIsOptionsOpen((prev) => !prev);
     }
 
-    // when any dropdown is opened, event listener added; if closing, removed
     const isOpen =
       dropdown === "notification" ? isNotificationOpen : isOptionsOpen;
     if (!isOpen) {
@@ -65,36 +71,38 @@ export default function Others() {
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)
     ) {
-      setIsNoticationOpen(false);
+      setIsNotificationOpen(false);
       setIsOptionsOpen(false);
       document.removeEventListener("mousedown", handleClickOutside);
     }
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+    setIsOptionsOpen(false);
+  };
+  const closeModal = () => setModalOpen(false);
+
   const handleLogOut = () => {
+    resetUnreadCount();
     logout();
     navigate("/login");
   };
 
   return (
     <div className="items-center gap-4 flex justify-center">
-      {/* Notification  */}
-      <span id="notificationLabel" className="sr-only">
-        Open Notification
-      </span>
+      {/* Notification */}
       <button
         onClick={() => toggleDropdown("notification")}
-        id="notification-btn"
         className="relative bg-gray-100 p-1.5 rounded-full flex items-center space-x-3 hover:bg-gray-200 transition-all duration-200 ease-linear focus:outline-none focus:ring-1 focus:ring-gray-500"
-        aria-labelledby="notificationLabel"
+        aria-label="Open notification"
         aria-expanded={isNotificationOpen}
       >
         <IoMdNotificationsOutline
           size={20}
-          className="not-icon text-gray-600"
+          className="text-gray-600"
           aria-hidden="true"
         />
-
         {unreadCount > 0 && (
           <div className="bg-red-600 w-4 h-4 flex items-center justify-center absolute top-0 -right-2 rounded-full">
             <span className="text-xs text-white">{unreadCount}</span>
@@ -105,81 +113,66 @@ export default function Others() {
       {isNotificationOpen && (
         <div
           ref={dropdownRef}
-          id="noificationDropdown"
-          className="notifcation-info-card absolute top-full mt-2 right-5 w-max p-4 bg-white rounded-md border shadow-lg"
-          aria-live="polite"
+          className="absolute top-full mt-2 right-5 w-max p-4 bg-white rounded-md border shadow-lg"
         >
-          <div className="notification-heading flex justify-between items-center">
-            <h4>Alert</h4>
+          <div className="flex justify-between items-center">
+            <h4>Alerts</h4>
             <button
-              onClick={() => setIsNoticationOpen(false)}
+              onClick={() => setIsNotificationOpen(false)}
               className="p-1 text-red-600 ring-1 ring-inset ring-gray-300"
               aria-label="Close notification"
             >
               <FiX aria-hidden="true" />
             </button>
           </div>
-          <div className="notification-text mt-4">
-            <ul
-              tabIndex={0}
-              aria-label="Transactions alert"
-              className="max-h-60 overflow-y-auto space-y-2"
-            >
-              {transactionsToShow.length > 0 ? (
-                transactionsToShow.map((transaction) => (
-                  <li
-                    key={transaction.id}
-                    className="flex flex-col items-start justify-center py-1 border-t first:border-0"
-                  >
-                    <p className="text-gray-500 text-xs">
-                      {new Date(transaction.created_at).toLocaleDateString(
-                        "en-NG",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: true,
-                        }
-                      )}
-                    </p>
-                    <span className="text-sm font-medium text-gray-800">
-                      You just{" "}
-                      {transaction.transaction_type === "deposit"
-                        ? " received "
-                        : " sent "}
-                      {new Intl.NumberFormat("en-NG", {
-                        style: "currency",
-                        currency: "NGN",
-                      }).format(transaction.amount ?? 0)}
-                      {transaction.transaction_type === "deposit"
-                        ? " from "
-                        : " to "}
-                      {transaction.recipient.account_name}
-                    </span>
-                  </li>
-                ))
-              ) : (
-                <p className="text-sm py-1">
-                  Alert about your transactions will show here.
-                </p>
-              )}
-            </ul>
-            {previousTransactions.length > 3 && (
-              <button
-                onClick={toggleShowAll}
-                className="mt-2 py-1 text-sm text-gray-800 underline"
-                aria-label={
-                  showAll ? "Show less transactions" : "Show more transactions"
-                }
-              >
-                {showAll ? "Show Less" : "Show More"}
-              </button>
+          <ul className="max-h-60 overflow-y-auto space-y-2 mt-4">
+            {transactionsToShow.length > 0 ? (
+              transactionsToShow.map((transaction) => (
+                <li
+                  key={transaction.id}
+                  className="py-1 border-t first:border-0"
+                >
+                  <p className="text-xs text-gray-500">
+                    {new Date(transaction.created_at).toLocaleString("en-NG", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </p>
+                  <span className="text-sm font-medium text-gray-800">
+                    You{" "}
+                    {transaction.transaction_type === "deposit"
+                      ? "received"
+                      : "sent"}{" "}
+                    {new Intl.NumberFormat("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
+                    }).format(transaction.amount)}{" "}
+                    {transaction.transaction_type === "deposit" ? "from" : "to"}{" "}
+                    {transaction.recipient.account_name}
+                  </span>
+                </li>
+              ))
+            ) : (
+              <p className="text-sm text-gray-800">
+                No transactions to display for today.
+              </p>
             )}
-          </div>
+          </ul>
+          {previousTransactions.length > 3 && (
+            <button
+              onClick={toggleShowAll}
+              className="mt-2 text-sm text-gray-800 underline"
+            >
+              {showAll ? "Show Less" : "Show More"}
+            </button>
+          )}
         </div>
       )}
+
       {/* more options */}
       <span id="OptionsLabel" className="sr-only">
         Open more options
@@ -194,6 +187,7 @@ export default function Others() {
           <PiDotsThreeOutlineVertical size={18} aria-hidden="true" />
         </span>
       </button>
+
       {isOptionsOpen && (
         <div
           ref={dropdownRef}
@@ -211,6 +205,12 @@ export default function Others() {
             <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard/account">Account</Link>
             </li>
+            <li
+              className="px-6 hover:text-gray-600 cursor-pointer"
+              onClick={openModal}
+            >
+              Verify
+            </li>
             <li className="px-6 hover:text-gray-600">
               <Link to="/dashboard">Settings</Link>
             </li>
@@ -220,6 +220,28 @@ export default function Others() {
               </button>
             </li>
           </ul>
+        </div>
+      )}
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="bg-white p-6 rounded-lg w-96 space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Verified Account Numbers
+            </h2>
+            <ul className="space-y-2 text-gray-700">
+              <li>Account 1: 8877941039</li>
+              <li>Account 2: 8056436111</li>
+              <li>Account 3: 5418079112</li>
+            </ul>
+            <button
+              onClick={closeModal}
+              className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-500 ease-in-out duration-300"
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>

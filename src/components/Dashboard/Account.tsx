@@ -12,8 +12,8 @@ const Account = () => {
   );
 
   const renderAccountInfo = (label: string, content: React.ReactNode) => (
-    <div className="flex justify-between">
-      <span className="font-medium text-gray-600">{label}</span>
+    <div className="flex items-start justify-between">
+      <span className="font-semibold text-gray-500">{label}</span>
       {isLoading ? (
         <LoadingSkeleton width={200} />
       ) : (

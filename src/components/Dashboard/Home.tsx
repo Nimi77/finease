@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <div className="md:space-y-8 space-y-6">
       {/* first section */}
-      <div className="w-full h-40 bg-[#976f01] text-white p-4 flex flex-col justify-between rounded-md">
+      <div className="w-full h-40 bg-[#bd8502] text-white p-4 flex flex-col justify-between rounded-md">
         <div className="heading flex justify-between items-center">
           <div className="flex justify-center">
             <div
@@ -36,7 +36,7 @@ const Home = () => {
           </div>
           <button
             onClick={() => navigate("/dashboard/transactions")}
-            className="text-sm bg-inherit flex justify-center items-center"
+            className=" hidden text-sm bg-inherit sm:flex justify-center items-center"
           >
             Transaction History{" "}
             <span className="pt-1 pl-2" aria-hidden="true">

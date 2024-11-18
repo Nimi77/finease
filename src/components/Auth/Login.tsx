@@ -46,8 +46,9 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="login-page m-auto">
+    <div className="login page">
       <main className="flex justify-center" aria-labelledby="login-heading">
+        <div></div>
         <Link
           to="/"
           className="absolute top-4 right-4 flex items-center justify-center text-sm  text-primaryText hover:text-linkText transition-transform transform hover:-translate-x-1"
@@ -76,7 +77,7 @@ const LoginForm = () => {
             onSubmit={handleLogin}
           >
             {({ isSubmitting, handleChange, handleBlur }) => (
-              <Form className="mt-8 mb-3" aria-label="login-form">
+              <Form className="mt-8 mb-3 px-5 max-w-lg" aria-label="login form">
                 <fieldset
                   className="user-detials space-y-4"
                   disabled={isSubmitting}
@@ -105,7 +106,7 @@ const LoginForm = () => {
                 {/* error message */}
                 <div aria-live="assertive" className="mt-2">
                   {isError && formError && (
-                    <p className="text-sm text-red-500">{formError}</p>
+                    <p className="text-sm text-red-600">{formError}</p>
                   )}
                 </div>
                 <button

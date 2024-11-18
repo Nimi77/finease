@@ -33,17 +33,17 @@ const Header = ({
       <div className="m-auto">
         <div className="nav flex justify-between items-center">
           <button aria-label="Open menu" className="md:hidden" onClick={onOpen}>
-            <HiMenuAlt2 color="#2A3B39" size={25} aria-hidden="true" />
+            <HiMenuAlt2 color="#4B5563" size={25} aria-hidden="true" />
           </button>
 
-          <div className="flex flex-col-reverse items-center justify-end md:justify-start md:items-start">
+          <div className="h-text">
             <h1 className="text-sm text-gray-600 block">
               Welcome to Your Dashboard
             </h1>
             {isLoading ? (
               <div className="w-60 h-5 bg-gray-200 rounded animate-pulse"></div>
             ) : (
-              <span className="font-NotoSans font-medium text-primaryText">
+              <span className="font-medium text-primaryText">
                 {`${getGreeting()}, ${user?.first_name || "Guest"}`}
               </span>
             )}

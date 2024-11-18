@@ -46,7 +46,7 @@ const FormInput: React.FC<FormInputProps> = ({
       <ErrorMessage
         name={name}
         component="span"
-        className="text-red-500 text-sm"
+        className="text-red-600 text-sm"
       />
     </div>
   </div>

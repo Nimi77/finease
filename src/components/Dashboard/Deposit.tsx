@@ -88,7 +88,7 @@ const Deposit = () => {
                 <ErrorMessage
                   name="amount"
                   component="div"
-                  className="text-red-500 text-sm mt-2"
+                  className="text-red-600 text-sm mt-2"
                 />
               </div>
             </div>
@@ -114,14 +114,14 @@ const Deposit = () => {
                 <ErrorMessage
                   name="narration"
                   component="div"
-                  className="text-red-500 text-sm mt-2"
+                  className="text-red-600 text-sm mt-2"
                 />
               </div>
             </div>
 
             {/* Error and Success Messages */}
             <div className="mb-2">
-              {isError && <p className="text-red-500 text-sm">{formError}</p>}
+              {isError && <p className="text-red-600 text-sm">{formError}</p>}
             </div>
 
             {/* Submit Button */}

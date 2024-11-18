@@ -40,14 +40,14 @@ const HomePage = () => {
             <div className="flex justify-center space-x-6 mt-12 mb-8">
               <button
                 onClick={() => handleNavigation("/login")}
-                className="px-8 py-2 text-white font-semibold bg-secondary rounded hover:bg-active transition-transform transform ease-in-out hover:scale-105 duration-300 shadow"
+                className="px-8 py-2 text-white font-semibold bg-secondary rounded transition-transform transform ease-in-out hover:scale-105 duration-200 shadow"
                 aria-label="Navigate to login page"
               >
                 Login
               </button>
               <button
                 onClick={() => handleNavigation("/register")}
-                className="px-6 py-2 text-white font-semibold bg-active rounded hover:bg-active transition-transform ease-in-out transform hover:scale-105 duration-300 shadow"
+                className="px-6 py-2 text-white font-semibold bg-active rounded transition-transform ease-in-out transform hover:scale-105 duration-200 shadow"
                 aria-label="Navigate to register page"
               >
                 Register

@@ -168,7 +168,7 @@ const Transfer = () => {
                   />
                   {isError ||
                     (formError && (
-                      <span className="text-red-500 text-sm mt-2">
+                      <span className="text-red-600 text-sm mt-2">
                         {formError}
                       </span>
                     ))}
@@ -223,7 +223,7 @@ const Transfer = () => {
                       className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  text-sm leading-6"
                     />
                     {isInsufficientFunds && (
-                      <span className="text-red-500 text-sm mt-2">
+                      <span className="text-red-600 text-sm mt-2">
                         Insufficient balance for this transaction
                       </span>
                     )}
@@ -257,7 +257,7 @@ const Transfer = () => {
                       <ErrorMessage
                         name="amount"
                         component="span"
-                        className="text-red-500 text-sm mt-2"
+                        className="text-red-600 text-sm mt-2"
                       />
                     </div>
                   </div>
@@ -278,7 +278,7 @@ const Transfer = () => {
                       <ErrorMessage
                         name="narration"
                         component="span"
-                        className="text-red-500 text-sm mt-2"
+                        className="text-red-600 text-sm mt-2"
                       />
                     </div>
                   </div>
