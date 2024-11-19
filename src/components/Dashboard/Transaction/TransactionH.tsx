@@ -67,16 +67,14 @@ const TransactionHistory = () => {
   return (
     <>
       <div className="heading flex justify-between">
-        <h3 className="font-medium mb-4 text-primaryText">
-          Transaction History
-        </h3>
+        <h3 className="font-medium text-primaryText">Transaction History</h3>
       </div>
       {transactionsToShow.length === 0 ? (
-        <p className="text-sm">No transactions found.</p>
+        <p className="text-sm mt-4">No transactions found.</p>
       ) : (
         <>
           {/* Table layout for large screens */}
-          <div className="hidden lg:block overflow-x-auto pt-4 pb-6">
+          <div className="hidden lg:block overflow-x-auto my-6">
             <table className="w-full table-auto border-collapse border border-gray-200 rounded-md">
               <thead>
                 <tr className="bg-[#F7F7F7] border-y text-msm">
@@ -143,12 +141,19 @@ const TransactionHistory = () => {
           </div>
 
           {/* Card layout for medium screens and below */}
-          <div className="lg:hidden space-y-4 mt-4">
+          <div className="lg:hidden space-y-4 my-6">
             {transactions.map((transaction: Transaction) => (
               <div
                 key={transaction.id}
-                className="transaction-card bg-white shadow p-4 rounded-md cursor-pointer"
+                role="button"
                 onClick={() => setSelectedTransaction(transaction)}
+                tabIndex={0}
+                className="transaction-card bg-white shadow p-4 rounded-md cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setSelectedTransaction(transaction);
+                  }
+                }}
               >
                 <div className="transaction-container">
                   <div className="flex items-center justify-center gap-2">
@@ -188,7 +193,7 @@ const TransactionHistory = () => {
                     </div>
                   </div>
 
-                  <div className="transaction-amount text-right flex flex-col space-y-1">
+                  <div className="transaction-amount text-sm text-right flex flex-col space-y-1">
                     <span className="font-medium text-gray-800">
                       {transaction.transaction_type === "deposit"
                         ? " + "

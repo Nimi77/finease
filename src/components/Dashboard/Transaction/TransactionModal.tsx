@@ -19,11 +19,18 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
   if (!selectedTransaction) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      aria-hidden={!selectedTransaction}
+    >
       <div className="t-modal bg-white w-11/12 max-w-lg py-6 rounded-lg shadow-md">
-        <div className="flex flex-col items-start gap-3 px-4">
+        <div className="flex flex-col items-start gap-3 px-5">
           <div className="w-12 h-12 flex items-center justify-center bg-[#ccffd09c] rounded-full">
-            <IoWalletOutline size={26} className="text-green-700" />
+            <IoWalletOutline
+              size={26}
+              className="text-green-700"
+              aria-hidden="true"
+            />
           </div>
           <h2 className="text-lg font-medium">Transaction</h2>
         </div>

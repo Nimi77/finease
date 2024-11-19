@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { motion } from "framer-motion";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -28,7 +28,6 @@ const DashboardLayout = () => {
             animate={{ x: isSidebarOpen ? "0%" : "-100%" }}
             transition={{ type: "tween", duration: 0.4 }}
             className="sidebar bg-secondary w-64 h-full fixed top-0 left-0 pt-6 pb-8 px-6"
-            aria-label="Sidebar navigation"
           >
             <Sidebar isOpen={isSidebarOpen} onClose={onClose} />
           </motion.aside>

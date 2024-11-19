@@ -23,6 +23,13 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
+.transaction-h {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  background-color: inherit;
+}
 .transaction-container {
   display: flex;
   align-items: center;
@@ -40,7 +47,7 @@
   justify-content: space-between;
   font-size: 0.94rem;
   padding-block: 0.6rem;
-  padding-inline: 1rem;
+  padding-inline: 1.25rem;
 }
 .transaction-modal-details div:not(:last-child) {
   border-bottom: 1px solid #e5e7eb;
@@ -111,16 +118,19 @@
     justify-content: flex-end;
   }
 }
-@media (max-width: 400px) {
-  .h-text {
-    display: none;
-  }
+@media (max-width: 420px) {
+  .h-text,
+  .transaction-h,
   .transaction-container {
     display: none;
+  }
+  .transaction-card {
+    padding: 0.5rem;
   }
   .m-transaction-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 1.6rem;
   }
 }

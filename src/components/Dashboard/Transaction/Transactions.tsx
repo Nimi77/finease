@@ -150,8 +150,15 @@ const Transactions = () => {
             {transactions.map((transaction: Transaction) => (
               <div
                 key={transaction.id}
-                className="transaction-card bg-white shadow p-4 rounded-md cursor-pointer"
+                role="button"
                 onClick={() => setSelectedTransaction(transaction)}
+                tabIndex={0}
+                className="transaction-card bg-white shadow p-4 rounded-md cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setSelectedTransaction(transaction);
+                  }
+                }}
               >
                 <div className="transaction-container">
                   <div className="flex items-center justify-center gap-2">
@@ -191,7 +198,7 @@ const Transactions = () => {
                     </div>
                   </div>
 
-                  <div className="transaction-amount text-right flex flex-col space-y-1">
+                  <div className="transaction-amount text-sm text-right flex flex-col space-y-1">
                     <span className="font-medium text-gray-800">
                       {transaction.transaction_type === "deposit"
                         ? " + "
@@ -230,7 +237,7 @@ const Transactions = () => {
                       </span>
                       <span>{transaction.recipient.account_name}</span>
                     </div>
-                    <span className="text-gray-800 mt-1 mb-4">
+                    <span className="text-gray-800 mt-1 mb-2">
                       {transaction.transaction_type === "deposit"
                         ? " + "
                         : " - "}

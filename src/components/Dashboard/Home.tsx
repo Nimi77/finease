@@ -36,7 +36,7 @@ const Home = () => {
           </div>
           <button
             onClick={() => navigate("/dashboard/transactions")}
-            className=" hidden text-sm bg-inherit sm:flex justify-center items-center"
+            className="transaction-h"
           >
             Transaction History{" "}
             <span className="pt-1 pl-2" aria-hidden="true">

@@ -92,10 +92,13 @@ export default function Others() {
   return (
     <div className="items-center gap-4 flex justify-center">
       {/* Notification */}
+      <span id="notification-label" className="sr-only">
+        Open notification
+      </span>
       <button
         onClick={() => toggleDropdown("notification")}
         className="relative bg-gray-100 p-1.5 rounded-full flex items-center space-x-3 hover:bg-gray-200 transition-all duration-200 ease-linear focus:outline-none focus:ring-1 focus:ring-gray-500"
-        aria-label="Open notification"
+        aria-labelledby="notification-label"
         aria-expanded={isNotificationOpen}
       >
         <IoMdNotificationsOutline
@@ -174,13 +177,13 @@ export default function Others() {
       )}
 
       {/* more options */}
-      <span id="OptionsLabel" className="sr-only">
+      <span id="options-label" className="sr-only">
         Open more options
       </span>
       <button
         onClick={() => toggleDropdown("others")}
         className="bg-gray-100 p-1.5 rounded-full relative flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ease-linear focus:outline-none focus:ring-1 focus:ring-gray-500"
-        aria-labelledby="OptionsLabel"
+        aria-labelledby="options-label"
         aria-expanded={isOptionsOpen ? "true" : "false"}
       >
         <span className="text-gray-600">
@@ -212,7 +215,7 @@ export default function Others() {
               Verify
             </li>
             <li className="px-6 hover:text-gray-600">
-              <Link to="/dashboard">Settings</Link>
+              <Link to="/dashboard/settings">Settings</Link>
             </li>
             <li className="px-6 border-t py-2 cursor-pointer hover:text-gray-600">
               <button onClick={handleLogOut} className="bg-inherit">
